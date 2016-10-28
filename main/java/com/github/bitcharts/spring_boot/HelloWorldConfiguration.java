@@ -1,4 +1,4 @@
-package com.github.bitcharts; /**
+package com.github.bitcharts.spring_boot; /**
  * Created by mironr on 10/27/2016.
  */
 import org.springframework.boot.SpringApplication;
