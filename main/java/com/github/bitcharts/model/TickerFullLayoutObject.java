@@ -2,6 +2,7 @@ package com.github.bitcharts.model;
 
 import java.util.Date;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +11,7 @@ import org.knowm.xchange.currency.Currency;
  * Time: 7:17 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TickerFullLayoutObject extends TickerShallowObject {
+public class TickerFullLayoutObject extends TickerShallowObject implements TickerObject {
 
    /* *   "result":"success",
             *   "data": {
@@ -38,7 +39,7 @@ public class TickerFullLayoutObject extends TickerShallowObject {
     private double bid;
     private double ask;
 
-    public TickerFullLayoutObject(Currency currency, double price, Date now, double ask, double average, double bid, double high, double lastAll, double lastLocal, double lastOrig, double low, double volume, double vwap) {
+    public TickerFullLayoutObject(CurrencyPair currency, double price, Date now, double ask, double average, double bid, double high, double lastAll, double lastLocal, double lastOrig, double low, double volume, double vwap) {
         super(currency, price, now);
         this.ask = ask;
         this.average = average;

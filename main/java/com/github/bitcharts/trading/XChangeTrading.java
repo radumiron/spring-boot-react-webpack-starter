@@ -21,6 +21,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -52,19 +53,20 @@ public class XChangeTrading implements TradeInterface {
   }
 
   private void initServices() {
-      Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
-    Exchange anxV3Exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
-    Exchange bitcurexExchange = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+      Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+      Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+
+   /* Exchange bitcurexExchange = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
     Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
     Exchange blockchainExchange = ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
     Exchange btcchinaExchange = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
-    Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
     Exchange campBxExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
-    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
-
+    Exchange anxV3Exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
+*/
 
     marketsExchangeMap.put(Markets.BTCE, btceExchange);
-    marketsExchangeMap.put(Markets.ANXv3, anxV3Exchange);
+    marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
         /*marketsExchangeMap.put(Markets.BITCOINCHARTS, bitcoinChartsExchange);
         marketsExchangeMap.put(Markets.BITCUREX, bitcurexExchange);
         marketsExchangeMap.put(Markets.BITSTAMP, bitstampExchange);
@@ -76,23 +78,23 @@ public class XChangeTrading implements TradeInterface {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService btceService = btceExchange.getPollingMarketDataService();
-    PollingMarketDataService anxV3Service = anxV3Exchange.getPollingMarketDataService();
+    PollingMarketDataService krakenService = krakenExchange.getPollingMarketDataService();
 
-    PollingMarketDataService bitcurexService = bitcurexExchange.getPollingMarketDataService();
+    /*PollingMarketDataService bitcurexService = bitcurexExchange.getPollingMarketDataService();
     PollingMarketDataService bitstampService = bitstampExchange.getPollingMarketDataService();
     PollingMarketDataService blockchainService = blockchainExchange.getPollingMarketDataService();
     PollingMarketDataService btcchinaService = btcchinaExchange.getPollingMarketDataService();
 
     PollingMarketDataService campBxService = campBxExchange.getPollingMarketDataService();
     PollingMarketDataService krakenService = krakenExchange.getPollingMarketDataService();
-    PollingMarketDataService bitcoinChartsService = bitcoinChartsExchange.getPollingMarketDataService();
+    PollingMarketDataService bitcoinChartsService = bitcoinChartsExchange.getPollingMarketDataService();*/
 
         /*marketsServiceMap.put(Markets.BITCOINCHARTS, bitcoinChartsService);
         marketsServiceMap.put(Markets.BITCUREX, bitcurexService);
         marketsServiceMap.put(Markets.BITSTAMP, bitstampService);
         marketsServiceMap.put(Markets.BTCCHINA, btcchinaService);*/
     marketsServiceMap.put(Markets.BTCE, btceService);
-    marketsServiceMap.put(Markets.ANXv3, anxV3Service);
+    marketsServiceMap.put(Markets.KRAKEN, krakenService);
         /*marketsServiceMap.put(Markets.CAMPBX, campBxService);*/
     //marketsServiceMap.put(Markets.CAVIRTEX, cavirtexService);
         /*marketsServiceMap.put(Markets.KRAKEN, krakenService);*/
@@ -119,7 +121,7 @@ public class XChangeTrading implements TradeInterface {
     LOG.debug("Getting ticker price for market:" + TradingUtil.getMarketIdentifierName(market, currency));
     try {
       ticker = marketsServiceMap.get(market).getTicker(new CurrencyPair(org.knowm.xchange.currency.Currency.BTC, currency));
-      result = new TickerFullLayoutObject(currency, ticker.getLast().doubleValue(),
+      result = new TickerFullLayoutObject(new CurrencyPair(Currency.BTC, currency), ticker.getLast().doubleValue(),
           ticker.getTimestamp(), ticker.getAsk().doubleValue(), -1d,
           ticker.getBid().doubleValue(), ticker.getHigh().doubleValue(), -1d, -1d, -1d,
           ticker.getLow().doubleValue(), ticker.getVolume().doubleValue(), -1d);
@@ -128,7 +130,7 @@ public class XChangeTrading implements TradeInterface {
     }
     LOG.debug("Finished getting ticker price for market:" + TradingUtil.getMarketIdentifierName(market, currency)
         + ", operation took:" + (new Date().getTime() - before.getTime()) + " ms");
-    return (T) (result != null ? result : new TickerShallowObject(currency, 0, null));
+    return (T) (result != null ? result : new TickerShallowObject(new CurrencyPair(Currency.BTC, currency), 0, null));
   }
 
   @Override
