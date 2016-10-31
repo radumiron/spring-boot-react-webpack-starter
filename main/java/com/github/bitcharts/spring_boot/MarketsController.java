@@ -5,6 +5,8 @@ import com.github.bitcharts.model.TickerFactory;
 import com.github.bitcharts.model.TickerObject;
 import com.github.bitcharts.model.TradesShallowObject;
 import com.github.bitcharts.trading.XChangeTrading;
+import com.github.bitcharts.trading.interfaces.TradeInterface;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -28,14 +30,13 @@ import java.util.*;
 public class MarketsController {
 
     @Autowired
-    private XChangeTrading trading;
+    private TradeInterface trading;
 
     @RequestMapping(value={"/currencies"}, method= RequestMethod.GET)
-    public @ResponseBody List<CurrencyPair> supportedCurrencies(@RequestParam(value="market") String marketName ) {
+    public @ResponseBody Collection<CurrencyPair> supportedCurrencies(@RequestParam(value="market") String marketName ) {
         marketName = marketName.toUpperCase();
         try {
-            List<CurrencyPair> pairs = trading.getMarketsExchangeMap().get(Markets.valueOf(marketName)).getExchangeSymbols();
-            return pairs;
+            return trading.getExchangeSymbols(Markets.valueOf(marketName));
         } catch (Exception e) {
             return Collections.emptyList();
         }
@@ -57,7 +58,7 @@ public class MarketsController {
                     result.add(TickerFactory.getTickerShallowObject(ticker));
                 }
             } else {
-                List<CurrencyPair> supportedCurrencyPairs = supportedCurrencies(marketName);
+                Collection<CurrencyPair> supportedCurrencyPairs = supportedCurrencies(marketName);
 
                 if (isFullTicker) {
                     for (CurrencyPair pair : supportedCurrencyPairs) {
@@ -81,7 +82,7 @@ public class MarketsController {
 
     private Ticker getTicker(@RequestParam(value = "market") String marketName, CurrencyPair pair) {
         try {
-            return trading.getMarketsServiceMap().get(Markets.valueOf(marketName)).getTicker(pair);
+            return trading.getTicker(Markets.valueOf(marketName), pair);
         } catch (Exception e) {
             return null;
         }
@@ -89,7 +90,6 @@ public class MarketsController {
 
     @RequestMapping(method= RequestMethod.GET)
     public @ResponseBody Collection<Markets> supportedMarkets() {
-        Collection<Markets> result = trading.getMarketsExchangeMap().keySet();
-        return result;
+        return trading.getSupportedMarkets();
     }
 }

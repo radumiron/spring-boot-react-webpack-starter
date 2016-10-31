@@ -4,7 +4,10 @@ import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerShallowObject;
 import com.github.bitcharts.model.TradesFullLayoutObject;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -31,9 +34,9 @@ public interface ReadOnlyTradeInterface {
      * Returns the current price of 1 BTC in given currency.
      * @return      a double value with the current price of 1 BTC in the Currency cur
      */
-    public <T extends TickerShallowObject> T getLastPrice(Markets market, Currency cur);
+    public <T extends TickerShallowObject> T getLastPrice(Markets market, CurrencyPair cur);
 
-    public <T extends TickerShallowObject> T getPrice(Markets market, Currency currency);
+    public <T extends TickerShallowObject> T getPrice(Markets market, CurrencyPair currency);
 
     public Set<Currency> getSupportedCurrencies(Markets market);
 
@@ -43,5 +46,11 @@ public interface ReadOnlyTradeInterface {
      */
     public String getLag(Markets market);
 
-    public List<TradesFullLayoutObject> getTrades(Markets market, Currency currency, long previousTimestamp);
+    public Collection<TradesFullLayoutObject> getTrades(Markets market, CurrencyPair currency, long previousTimestamp);
+
+    public Ticker getTicker(Markets market, CurrencyPair currencyPair);
+
+  public Collection<Markets> getSupportedMarkets();
+
+  public Collection<CurrencyPair> getExchangeSymbols(Markets market);
 }

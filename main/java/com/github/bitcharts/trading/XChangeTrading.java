@@ -26,6 +26,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -49,12 +51,16 @@ public class XChangeTrading implements TradeInterface {
     //create the markets to service map
     marketsServiceMap = new HashMap<>();
     marketsExchangeMap = new HashMap<>();
-    initServices();
+    try {
+      initServices();
+    } catch (Exception e) {
+      LOG.error(e);
+    }
   }
 
   private void initServices() {
-      Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
-      Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
    /* Exchange bitcurexExchange = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
     Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
@@ -100,6 +106,26 @@ public class XChangeTrading implements TradeInterface {
         /*marketsServiceMap.put(Markets.KRAKEN, krakenService);*/
   }
 
+  @Override
+  public Ticker getTicker(Markets market, CurrencyPair currencyPair) {
+    try {
+      return marketsServiceMap.get(market).getTicker(currencyPair);
+    } catch (IOException e) {
+      LOG.error(e);
+    }
+
+    return null;
+  }
+
+  @Override
+  public Collection<Markets> getSupportedMarkets() {
+    return getMarketsExchangeMap().keySet();
+  }
+
+  @Override
+  public Collection<CurrencyPair> getExchangeSymbols(Markets market) {
+    return getMarketsExchangeMap().get(market).getExchangeSymbols();
+  }
 
   @Override
   public double[] getBalance() {
@@ -107,12 +133,12 @@ public class XChangeTrading implements TradeInterface {
   }
 
   @Override
-  public <T extends TickerShallowObject> T getLastPrice(Markets market, Currency cur) {
+  public <T extends TickerShallowObject> T getLastPrice(Markets market, CurrencyPair cur) {
     return null;  //To change body of implemented methods use File | Settings | File Templates.
   }
 
   @Override
-  public <T extends TickerShallowObject> T getPrice(Markets market, Currency currency) {
+  public <T extends TickerShallowObject> T getPrice(Markets market, CurrencyPair currency) {
     // Get the latest ticker data showing BTC to USD
     Ticker ticker;
     TickerShallowObject result = null;
@@ -120,8 +146,8 @@ public class XChangeTrading implements TradeInterface {
     Date before = new Date();
     LOG.debug("Getting ticker price for market:" + TradingUtil.getMarketIdentifierName(market, currency));
     try {
-      ticker = marketsServiceMap.get(market).getTicker(new CurrencyPair(org.knowm.xchange.currency.Currency.BTC, currency));
-      result = new TickerFullLayoutObject(new CurrencyPair(Currency.BTC, currency), ticker.getLast().doubleValue(),
+      ticker = marketsServiceMap.get(market).getTicker(currency);
+      result = new TickerFullLayoutObject(currency, ticker.getLast().doubleValue(),
           ticker.getTimestamp(), ticker.getAsk().doubleValue(), -1d,
           ticker.getBid().doubleValue(), ticker.getHigh().doubleValue(), -1d, -1d, -1d,
           ticker.getLow().doubleValue(), ticker.getVolume().doubleValue(), -1d);
@@ -130,7 +156,7 @@ public class XChangeTrading implements TradeInterface {
     }
     LOG.debug("Finished getting ticker price for market:" + TradingUtil.getMarketIdentifierName(market, currency)
         + ", operation took:" + (new Date().getTime() - before.getTime()) + " ms");
-    return (T) (result != null ? result : new TickerShallowObject(new CurrencyPair(Currency.BTC, currency), 0, null));
+    return (T) (result != null ? result : new TickerShallowObject(currency, 0, null));
   }
 
   @Override
@@ -157,12 +183,13 @@ public class XChangeTrading implements TradeInterface {
   }
 
   @Override
-  public List<TradesFullLayoutObject> getTrades(Markets market, Currency currency, long previousTimestamp) {
+  public List<TradesFullLayoutObject> getTrades(Markets market, CurrencyPair currency, long previousTimestamp) {
     LOG.info("Getting all the trades since:" + previousTimestamp + " for market:" + TradingUtil.getMarketIdentifierName(market, currency));
     List<TradesFullLayoutObject> result = new ArrayList<>();
     try {
       //the SINCE parameter from the API can be sent here
-      Trades trades =  marketsServiceMap.get(market).getTrades(new CurrencyPair(Currency.BTC, currency), Long.valueOf(previousTimestamp + "000"));   //convert the timestamp to microsecond
+      Trades trades =  marketsServiceMap.get(market).getTrades(currency, Long.valueOf(previousTimestamp + "000"));   //convert the timestamp to
+      // microsecond
       for (Trade trade : trades.getTrades()) {
         //(long tradeId, Date dateDate, double tradePrice, double tradeAmount, Currency currency, Currency tradeItem, TradeType type)
         TradesFullLayoutObject newTrade = new TradesFullLayoutObject(trade.getId(), trade.getTimestamp(),
