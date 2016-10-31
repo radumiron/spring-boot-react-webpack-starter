@@ -20,35 +20,35 @@ import java.util.Set;
  */
 public interface ReadOnlyTradeInterface {
 
-    /**
-     * Returns an array with the user's balance in different currencies.
-     *
-     * The first element of the array is the amount in BTC,
-     * the second element in USD and the third in EUR.
-     * @return      an array with the current balance
-     */
-    public double[] getBalance() ;
+  /**
+   * Returns an array with the user's balance in different currencies.
+   *
+   * The first element of the array is the amount in BTC,
+   * the second element in USD and the third in EUR.
+   * @return      an array with the current balance
+   */
+  public double[] getBalance() ;
 
 
-    /**
-     * Returns the current price of 1 BTC in given currency.
-     * @return      a double value with the current price of 1 BTC in the Currency cur
-     */
-    public <T extends TickerShallowObject> T getLastPrice(Markets market, CurrencyPair cur);
+  /**
+   * Returns the current price of 1 BTC in given currency.
+   * @return      a double value with the current price of 1 BTC in the Currency cur
+   */
+  public <T extends TickerShallowObject> T getLastPrice(Markets market, CurrencyPair cur);
 
-    public <T extends TickerShallowObject> T getPrice(Markets market, CurrencyPair currency);
+  public <T extends TickerShallowObject> T getPrice(Markets market, CurrencyPair currency);
 
-    public Set<Currency> getSupportedCurrencies(Markets market);
+  public Set<Currency> getSupportedCurrencies(Markets market);
 
-    /**
-     * Returns the lag of the trading engine.
-     * @return      a string with the lag
-     */
-    public String getLag(Markets market);
+  /**
+   * Returns the lag of the trading engine.
+   * @return      a string with the lag
+   */
+  public String getLag(Markets market);
 
-    public Collection<TradesFullLayoutObject> getTrades(Markets market, CurrencyPair currency, long previousTimestamp);
+  public Collection<TradesFullLayoutObject> getTrades(Markets market, CurrencyPair currency, long previousTimestamp);
 
-    public Ticker getTicker(Markets market, CurrencyPair currencyPair);
+  public Ticker getTicker(Markets market, CurrencyPair currencyPair);
 
   public Collection<Markets> getSupportedMarkets();
 

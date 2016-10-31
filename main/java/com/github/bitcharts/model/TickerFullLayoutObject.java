@@ -28,87 +28,87 @@ public class TickerFullLayoutObject extends TickerShallowObject implements Ticke
         *       "sell":       **Currency Object - USD**,
         *       "now":        "1364689759572564"*/
 
-    private double high;
-    private double low;
-    private double average;
-    private double vwap;
-    private double volume;
-    private double lastLocal;
-    private double lastOrig;
-    private double lastAll;
-    private double bid;
-    private double ask;
+  private double high;
+  private double low;
+  private double average;
+  private double vwap;
+  private double volume;
+  private double lastLocal;
+  private double lastOrig;
+  private double lastAll;
+  private double bid;
+  private double ask;
 
-    public TickerFullLayoutObject(CurrencyPair currency, double price, Date now, double ask, double average, double bid, double high, double lastAll, double lastLocal, double lastOrig, double low, double volume, double vwap) {
-        super(currency, price, now);
-        this.ask = ask;
-        this.average = average;
-        this.bid = bid;
-        this.high = high;
-        this.lastAll = lastAll;
-        this.lastLocal = lastLocal;
-        this.lastOrig = lastOrig;
-        this.low = low;
-        this.volume = volume;
-        this.vwap = vwap;
-    }
+  public TickerFullLayoutObject(CurrencyPair currency, double price, Date now, double ask, double average, double bid, double high, double lastAll, double lastLocal, double lastOrig, double low, double volume, double vwap) {
+    super(currency, price, now);
+    this.ask = ask;
+    this.average = average;
+    this.bid = bid;
+    this.high = high;
+    this.lastAll = lastAll;
+    this.lastLocal = lastLocal;
+    this.lastOrig = lastOrig;
+    this.low = low;
+    this.volume = volume;
+    this.vwap = vwap;
+  }
 
-    public TickerFullLayoutObject() {
-    }
+  public TickerFullLayoutObject() {
+  }
 
-    public double getAsk() {
-        return ask;
-    }
+  public double getAsk() {
+    return ask;
+  }
 
-    public double getAverage() {
-        return average;
-    }
+  public double getAverage() {
+    return average;
+  }
 
-    public double getBid() {
-        return bid;
-    }
+  public double getBid() {
+    return bid;
+  }
 
-    public double getHigh() {
-        return high;
-    }
+  public double getHigh() {
+    return high;
+  }
 
-    public double getLastAll() {
-        return lastAll;
-    }
+  public double getLastAll() {
+    return lastAll;
+  }
 
-    public double getLastLocal() {
-        return lastLocal;
-    }
+  public double getLastLocal() {
+    return lastLocal;
+  }
 
-    public double getLastOrig() {
-        return lastOrig;
-    }
+  public double getLastOrig() {
+    return lastOrig;
+  }
 
-    public double getLow() {
-        return low;
-    }
+  public double getLow() {
+    return low;
+  }
 
-    public double getVolume() {
-        return volume;
-    }
+  public double getVolume() {
+    return volume;
+  }
 
-    public double getVwap() {
-        return vwap;
-    }
+  public double getVwap() {
+    return vwap;
+  }
 
-    @Override
-    public String toString() {
-        return "TickerFullLayoutObject{" +
-                "ask=" + ask +
-                ", high=" + high +
-                ", low=" + low +
-                ", average=" + average +
-                ", vwap=" + vwap +
-                ", volume=" + volume +
-                ", lastLocal=" + lastLocal +
-                ", lastOrig=" + lastOrig +
-                ", lastAll=" + lastAll +
-                ", bid=" + bid +
-                "} " + super.toString();
-    }
+  @Override
+  public String toString() {
+    return "TickerFullLayoutObject{" +
+        "ask=" + ask +
+        ", high=" + high +
+        ", low=" + low +
+        ", average=" + average +
+        ", vwap=" + vwap +
+        ", volume=" + volume +
+        ", lastLocal=" + lastLocal +
+        ", lastOrig=" + lastOrig +
+        ", lastAll=" + lastAll +
+        ", bid=" + bid +
+        "} " + super.toString();
+  }
 }

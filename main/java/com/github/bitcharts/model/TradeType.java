@@ -8,5 +8,5 @@ package com.github.bitcharts.model;
  * To change this template use File | Settings | File Templates.
  */
 public enum TradeType {
-    BID, ASK
+  BID, ASK
 }

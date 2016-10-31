@@ -4,24 +4,24 @@ package com.github.bitcharts.spring_boot;
  * Created by mironr on 10/28/2016.
  */
 public class Greeting {
-    private final long id;
-    private final String content;
+  private final long id;
+  private final String content;
 
-    public Greeting() {
-        id = 0;
-        content = null;
-    }
+  public Greeting() {
+    id = 0;
+    content = null;
+  }
 
-    public Greeting(long id, String content) {
-        this.id = id;
-        this.content = content;
-    }
+  public Greeting(long id, String content) {
+    this.id = id;
+    this.content = content;
+  }
 
-    public long getId() {
-        return id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getContent() {
+    return content;
+  }
 }

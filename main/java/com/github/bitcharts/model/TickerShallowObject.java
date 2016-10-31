@@ -13,37 +13,37 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public class TickerShallowObject implements TickerObject {
 
-    private CurrencyPair currency;
-    private double price;
-    private Date now;
+  private CurrencyPair currency;
+  private double price;
+  private Date now;
 
-    public TickerShallowObject(CurrencyPair currency, double price, Date now) {
-        this.currency = currency;
-        this.price = price;
-        this.now = now;
-    }
+  public TickerShallowObject(CurrencyPair currency, double price, Date now) {
+    this.currency = currency;
+    this.price = price;
+    this.now = now;
+  }
 
-    public TickerShallowObject() {
-    }
+  public TickerShallowObject() {
+  }
 
-    public CurrencyPair getCurrency() {
-        return currency;
-    }
+  public CurrencyPair getCurrency() {
+    return currency;
+  }
 
-    public double getPrice() {
-        return price;
-    }
+  public double getPrice() {
+    return price;
+  }
 
-    public Date getNow() {
-        return now;
-    }
+  public Date getNow() {
+    return now;
+  }
 
-    @Override
-    public String toString() {
-        return "TickerShallowObject{" +
-                "currency=" + currency +
-                ", price=" + price +
-                ", now=" + now +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "TickerShallowObject{" +
+        "currency=" + currency +
+        ", price=" + price +
+        ", now=" + now +
+        '}';
+  }
 }
