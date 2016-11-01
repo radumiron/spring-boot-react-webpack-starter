@@ -52,5 +52,5 @@ public interface ReadOnlyTradeInterface {
 
   public Collection<Markets> getSupportedMarkets();
 
-  public Collection<CurrencyPair> getExchangeSymbols(Markets market);
+  public Collection<CurrencyPair> getExchangeSymbols(String marketName);
 }

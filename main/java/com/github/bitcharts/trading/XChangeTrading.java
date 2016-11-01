@@ -31,7 +31,6 @@ import java.util.*;
  * Time: 9:37 PM
  * To change this template use File | Settings | File Templates.
  */
-@Component
 public class XChangeTrading implements TradeInterface {
 
   private static final Logger LOG = Logger.getLogger(XChangeTrading.class);
@@ -111,12 +110,13 @@ public class XChangeTrading implements TradeInterface {
   }
 
   @Override
-  public Collection<Markets> getSupportedMarkets() {
+  public Set<Markets> getSupportedMarkets() {
     return getMarketsExchangeMap().keySet();
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols(Markets market) {
+  public Collection<CurrencyPair> getExchangeSymbols(String marketName) {
+    Markets market = Markets.valueOf(marketName);
     return getMarketsExchangeMap().get(market).getExchangeSymbols();
   }
 

@@ -32,7 +32,6 @@ import static org.assertj.core.api.BDDAssertions.then;
  */
 @SpringBootTest(classes = HelloWorldConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration({ "classpath:mockApplicationContext.xml" })
 @TestPropertySource(properties = {"management.port=0"})
 public class HelloWorldConfigurationTests {
 

@@ -7,6 +7,8 @@ import com.github.bitcharts.model.TradesShallowObject;
 import com.github.bitcharts.trading.XChangeTrading;
 import com.github.bitcharts.trading.interfaces.TradeInterface;
 
+import org.apache.commons.lang3.EnumUtils;
+import org.apache.log4j.Logger;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -30,6 +32,8 @@ import java.util.*;
 @ComponentScan("com.github.bitcharts.trading")
 public class MarketsController {
 
+  private static final Logger LOG = Logger.getLogger(MarketsController.class);
+
   @Autowired
   private XChangeTrading trading;
 
@@ -37,8 +41,13 @@ public class MarketsController {
   public @ResponseBody Collection<CurrencyPair> supportedCurrencies(@RequestParam(value="market") String marketName ) {
     marketName = marketName.toUpperCase();
     try {
-      return trading.getExchangeSymbols(Markets.valueOf(marketName));
+      if (EnumUtils.isValidEnum(Markets.class, marketName)) {
+        return trading.getExchangeSymbols(marketName);
+      } else {
+        return Collections.emptyList();
+      }
     } catch (Exception e) {
+      LOG.error(e);
       return Collections.emptyList();
     }
   }
@@ -76,7 +85,7 @@ public class MarketsController {
 
       return result;
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(e);
       return null;
     }
   }
@@ -91,14 +100,8 @@ public class MarketsController {
 
   @RequestMapping(method= RequestMethod.GET)
   public @ResponseBody Collection<Markets> supportedMarkets() {
-    return trading.getSupportedMarkets();
+    Collection<Markets> markets = trading.getSupportedMarkets();
+    return markets;
   }
 
-  public void setTrading(XChangeTrading trading) {
-    this.trading = trading;
-  }
-
-  public XChangeTrading getTrading() {
-    return trading;
-  }
 }
