@@ -52,15 +52,25 @@ public class MarketsController {
     }
   }
 
+  public List<TickerObject> ticker(String marketName) {
+    return this.ticker(marketName, null, null, false);
+  }
+
+  public List<TickerObject> ticker(String marketName, String baseCurrencyName, String counterCurrencyName) {
+    return this.ticker(marketName, baseCurrencyName, counterCurrencyName, false);
+  }
+
+
   @RequestMapping(value={"/ticker"}, method = RequestMethod.GET)
   public @ResponseBody List<TickerObject> ticker(@RequestParam(value="market") String marketName,
-                                                 @RequestParam(value="currency", required = false) String currency,
+                                                 @RequestParam(value="baseCurrency", required = false) String baseCurrency,
+                                                 @RequestParam(value="counterCurrency", required = false) String counterCurrency,
                                                  @RequestParam(value="fullTicker", required = false, defaultValue = "false") boolean isFullTicker) {
     marketName = marketName.toUpperCase();
     try {
       List<TickerObject> result = new ArrayList<>();
-      if (currency != null) { //return the ticker for one currency
-        CurrencyPair pair = new CurrencyPair(Currency.BTC, Currency.getInstance(currency));
+      if (baseCurrency != null && counterCurrency != null) { //return the ticker for one currency
+        CurrencyPair pair = new CurrencyPair(Currency.getInstance(baseCurrency), Currency.getInstance(counterCurrency));
         Ticker ticker = getTicker(marketName, pair);
         if (isFullTicker) {
           result.add(TickerFactory.getTickerFullLayoutObject(ticker));
@@ -86,13 +96,13 @@ public class MarketsController {
       return result;
     } catch (Exception e) {
       LOG.error(e);
-      return null;
+      return Collections.emptyList();
     }
   }
 
   private Ticker getTicker(@RequestParam(value = "market") String marketName, CurrencyPair pair) {
     try {
-      return trading.getTicker(Markets.valueOf(marketName), pair);
+      return trading.getTicker(marketName, pair);
     } catch (Exception e) {
       return null;
     }

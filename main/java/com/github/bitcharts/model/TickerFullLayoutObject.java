@@ -111,4 +111,52 @@ public class TickerFullLayoutObject extends TickerShallowObject implements Ticke
         ", bid=" + bid +
         "} " + super.toString();
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof TickerFullLayoutObject)) return false;
+    if (!super.equals(o)) return false;
+
+    TickerFullLayoutObject that = (TickerFullLayoutObject) o;
+
+    if (Double.compare(that.high, high) != 0) return false;
+    if (Double.compare(that.low, low) != 0) return false;
+    if (Double.compare(that.average, average) != 0) return false;
+    if (Double.compare(that.vwap, vwap) != 0) return false;
+    if (Double.compare(that.volume, volume) != 0) return false;
+    if (Double.compare(that.lastLocal, lastLocal) != 0) return false;
+    if (Double.compare(that.lastOrig, lastOrig) != 0) return false;
+    if (Double.compare(that.lastAll, lastAll) != 0) return false;
+    if (Double.compare(that.bid, bid) != 0) return false;
+    return Double.compare(that.ask, ask) == 0;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    long temp;
+    temp = Double.doubleToLongBits(high);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(low);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(average);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(vwap);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(volume);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(lastLocal);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(lastOrig);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(lastAll);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(bid);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(ask);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    return result;
+  }
 }

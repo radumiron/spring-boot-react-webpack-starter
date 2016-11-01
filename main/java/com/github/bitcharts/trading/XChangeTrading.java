@@ -5,6 +5,7 @@ import com.github.bitcharts.model.*;
 import com.github.bitcharts.trading.interfaces.TradeInterface;
 import com.github.bitcharts.trading.util.TradingUtil;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.log4j.Logger;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -99,14 +100,16 @@ public class XChangeTrading implements TradeInterface {
   }
 
   @Override
-  public Ticker getTicker(Markets market, CurrencyPair currencyPair) {
+  public Ticker getTicker(String marketName, CurrencyPair currencyPair) {
     try {
-      return marketsServiceMap.get(market).getTicker(currencyPair);
+      if (EnumUtils.isValidEnum(Markets.class, marketName)) {
+        return marketsServiceMap.get(Markets.valueOf(marketName)).getTicker(currencyPair);
+      }
     } catch (IOException e) {
       LOG.error(e);
     }
 
-    return null;
+    return new Ticker.Builder().build();
   }
 
   @Override
@@ -126,7 +129,7 @@ public class XChangeTrading implements TradeInterface {
   }
 
   @Override
-  public <T extends TickerShallowObject> T getLastPrice(Markets market, CurrencyPair cur) {
+  public <T extends TickerShallowObject> T getLastPrice(String marketName, CurrencyPair cur) {
     return null;  //To change body of implemented methods use File | Settings | File Templates.
   }
 

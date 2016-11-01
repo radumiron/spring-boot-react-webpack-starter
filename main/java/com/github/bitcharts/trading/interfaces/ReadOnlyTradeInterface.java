@@ -34,7 +34,7 @@ public interface ReadOnlyTradeInterface {
    * Returns the current price of 1 BTC in given currency.
    * @return      a double value with the current price of 1 BTC in the Currency cur
    */
-  public <T extends TickerShallowObject> T getLastPrice(Markets market, CurrencyPair cur);
+  public <T extends TickerShallowObject> T getLastPrice(String marketName, CurrencyPair cur);
 
   public <T extends TickerShallowObject> T getPrice(Markets market, CurrencyPair currency);
 
@@ -48,7 +48,7 @@ public interface ReadOnlyTradeInterface {
 
   public Collection<TradesFullLayoutObject> getTrades(Markets market, CurrencyPair currency, long previousTimestamp);
 
-  public Ticker getTicker(Markets market, CurrencyPair currencyPair);
+  public Ticker getTicker(String marketName, CurrencyPair currencyPair);
 
   public Collection<Markets> getSupportedMarkets();
 
