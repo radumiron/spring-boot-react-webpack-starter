@@ -3,17 +3,12 @@ package com.github.bitcharts.trading;
 
 import com.github.bitcharts.model.*;
 import com.github.bitcharts.trading.interfaces.TradeInterface;
+import com.github.bitcharts.trading.util.TradingUtil;
+
 import org.apache.log4j.Logger;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.anx.v2.ANXExchange;
-import org.knowm.xchange.bitcoincharts.BitcoinChartsExchange;
-import org.knowm.xchange.bitcurex.BitcurexExchange;
-import org.knowm.xchange.bitstamp.BitstampExchange;
-import org.knowm.xchange.blockchain.BlockchainExchange;
-import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btce.v3.BTCEExchange;
-import org.knowm.xchange.campbx.CampBXExchange;
 import org.knowm.xchange.currency.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -21,7 +16,6 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +32,6 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-@Primary
 public class XChangeTrading implements TradeInterface {
 
   private static final Logger LOG = Logger.getLogger(XChangeTrading.class);

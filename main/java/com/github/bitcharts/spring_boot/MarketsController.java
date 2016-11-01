@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ import java.util.*;
 public class MarketsController {
 
   @Autowired
-  private TradeInterface trading;
+  private XChangeTrading trading;
 
   @RequestMapping(value={"/currencies"}, method= RequestMethod.GET)
   public @ResponseBody Collection<CurrencyPair> supportedCurrencies(@RequestParam(value="market") String marketName ) {
@@ -91,5 +92,13 @@ public class MarketsController {
   @RequestMapping(method= RequestMethod.GET)
   public @ResponseBody Collection<Markets> supportedMarkets() {
     return trading.getSupportedMarkets();
+  }
+
+  public void setTrading(XChangeTrading trading) {
+    this.trading = trading;
+  }
+
+  public XChangeTrading getTrading() {
+    return trading;
   }
 }

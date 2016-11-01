@@ -1,4 +1,4 @@
-package com.github.bitcharts.trading;
+package com.github.bitcharts.trading.util;
 
 
 import com.github.bitcharts.model.Markets;
