@@ -71,10 +71,10 @@ public class MarketsControllerTest {
   public void testUnsupportedMarketName() {
     String marketName = "MTGOX";
 
-    List currencies = Arrays.asList(new CurrencyPair(Currency.BTC, Currency.USD));
+    //List currencies = Arrays.asList(new CurrencyPair(Currency.BTC, Currency.USD));
 
-    when(trading.getExchangeSymbols(marketName)).thenReturn(new ArrayList<>(currencies));
-    assertNotEquals(currencies, controller.supportedCurrencies(marketName));
+    //when(trading.getExchangeSymbols(marketName)).thenReturn(new ArrayList<>(currencies));
+    assertEquals(new ArrayList<>(), controller.supportedCurrencies(marketName));
   }
 
   @Test
@@ -102,8 +102,30 @@ public class MarketsControllerTest {
 
     List<TickerShallowObject> result = getTickerShallowObjects(marketName, supportedCurrencyPair);
 
-    assertEquals(result, controller.ticker(marketName, supportedCurrencyPair.base.getDisplayName(),
-            supportedCurrencyPair.counter.getDisplayName()));
+    assertEquals(result, controller.ticker(marketName, supportedCurrencyPair.base.getCurrencyCode(),
+            supportedCurrencyPair.counter.getCurrencyCode()));
+  }
+
+  @Test
+  public void testTickerWithValidBaseCurrencyAndInvalidCounterCurrency() {
+    String marketName = "KRAKEN";
+    CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
+
+    List<TickerShallowObject> result = getTickerShallowObjects(marketName, supportedCurrencyPair);
+
+    assertNotEquals(result, controller.ticker(marketName, supportedCurrencyPair.base.getCurrencyCode(),
+        Currency.AED.getCurrencyCode()));
+  }
+
+  @Test
+  public void testTickerWithInvalidBaseCurrencyAndValidCounterCurrency() {
+    String marketName = "KRAKEN";
+    CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
+
+    List<TickerShallowObject> result = getTickerShallowObjects(marketName, supportedCurrencyPair);
+
+    assertNotEquals(result, controller.ticker(marketName, Currency.BTC.getCurrencyCode(),
+        supportedCurrencyPair.base.getCurrencyCode()));
   }
 
 
