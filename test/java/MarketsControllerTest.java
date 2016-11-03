@@ -5,9 +5,6 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.util.*;
 
-import com.github.bitcharts.model.TickerFactory;
-import com.github.bitcharts.model.TickerShallowObject;
-import com.github.bitcharts.trading.util.TradingUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.currency.Currency;
@@ -15,12 +12,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.github.bitcharts.model.Markets;
+import com.github.bitcharts.model.TickerFactory;
+import com.github.bitcharts.model.TickerShallowObject;
 import com.github.bitcharts.spring_boot.MarketsController;
 import com.github.bitcharts.trading.XChangeTrading;
 
