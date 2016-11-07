@@ -18,21 +18,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerFactory;
 import com.github.bitcharts.model.TickerShallowObject;
-import com.github.bitcharts.spring_boot.MarketsController;
+import com.github.bitcharts.spring_boot.MarketsService;
 import com.github.bitcharts.trading.XChangeTrading;
 
 /**
  * Created by mironr on 11/1/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-@SpringBootTest(classes = MarketsController.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MarketsControllerTest {
+@SpringBootTest(classes = MarketsService.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class MarketsServiceTest {
 
   @Mock
   private XChangeTrading trading;
 
   @InjectMocks
-  private MarketsController controller;
+  private MarketsService controller;
 
   @Test
   public void testExchanges() {

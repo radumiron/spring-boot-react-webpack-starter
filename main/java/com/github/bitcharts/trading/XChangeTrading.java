@@ -32,6 +32,7 @@ import java.util.*;
  * Time: 9:37 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class XChangeTrading implements TradeInterface {
 
   private static final Logger LOG = Logger.getLogger(XChangeTrading.class);
