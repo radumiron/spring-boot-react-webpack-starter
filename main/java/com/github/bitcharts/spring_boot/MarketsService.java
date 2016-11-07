@@ -138,33 +138,4 @@ public class MarketsService {
       return new Ticker.Builder().build();
     }
   }
-
-  private List<TickerShallowObject> prepareTickerShallowObjects(String marketName) {
-    //setup the list of variables to be returned
-    CurrencyPair supportedCurrencyPair1 = new CurrencyPair(Currency.BTC, Currency.EUR);
-    CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.FTC, Currency.USD);
-    return getTickerShallowObjects(marketName, supportedCurrencyPair1, supportedCurrencyPair2);
-  }
-
-  private List<TickerShallowObject> getTickerShallowObjects(String marketName, CurrencyPair... supportedCurrencyPairs) {
-    List<CurrencyPair> supportedCurrencies = Arrays.asList(supportedCurrencyPairs);
-    //create the assert result
-    List<TickerShallowObject> result = new ArrayList<>();
-
-    when(trading.getExchangeSymbols(marketName)).thenReturn(new ArrayList<>(supportedCurrencies));
-
-    for (CurrencyPair pair : supportedCurrencies) {
-      Ticker.Builder builder = new Ticker.Builder().ask(new BigDecimal(0)).bid(new BigDecimal(0))
-              .high(new BigDecimal(0)).last(new BigDecimal(0)).low(new BigDecimal(0))
-              .volume(new BigDecimal(0)).vwap(new BigDecimal(0)).currencyPair(pair).timestamp(new Date());
-      Ticker ticker = builder.build();
-
-      when(trading.getTicker(marketName, pair)).thenReturn(ticker);
-
-      result.add(TickerFactory.getTickerShallowObject(ticker));
-    }
-
-    return result;
-  }
-
 }
