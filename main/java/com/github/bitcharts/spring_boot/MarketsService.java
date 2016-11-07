@@ -72,6 +72,14 @@ public class MarketsService {
     }
   }
 
+  public List<TickerObject> ticker(String marketName) {
+    return this.ticker(marketName, null, null, false);
+  }
+
+  public List<TickerObject> ticker(String marketName, String baseCurrencyName, String counterCurrencyName) {
+    return this.ticker(marketName, baseCurrencyName, counterCurrencyName, false);
+  }
+
   public List<TickerObject> ticker(String marketName, String baseCurrencyName, String counterCurrencyName, boolean isFullTicker) {
     marketName = marketName.toUpperCase();
     try {
@@ -84,12 +92,14 @@ public class MarketsService {
         } else {
           result.add(TickerFactory.getTickerShallowObject(ticker));
         }
-      } else if (baseCurrencyName != null && counterCurrencyName == null) { //return the ticker for the baseCurrencyName
+      } else if (baseCurrencyName != null) { //return the ticker for the baseCurrencyName
         Currency baseCurrency = Currency.getInstance(baseCurrencyName);
         result.addAll(getTickerForMarket(marketName, isFullTicker, baseCurrency, null));
-      } else if (baseCurrencyName == null && counterCurrencyName != null){
+      } else if (counterCurrencyName != null){
         Currency counterCurrency = Currency.getInstance(counterCurrencyName);
         result.addAll(getTickerForMarket(marketName, isFullTicker, null, counterCurrency));  //return ticker for all supported currencies
+      } else {
+        result.addAll(getTickerForMarket(marketName, isFullTicker, null, null));  //return tickers for all supported currencies
       }
 
       return result;
@@ -106,12 +116,16 @@ public class MarketsService {
     if (isFullTicker) {
       for (CurrencyPair pair : supportedCurrencyPairs) {
         Ticker ticker = getTicker(marketName, pair);
-        result.add(TickerFactory.getTickerFullLayoutObject(ticker));
+        if (ticker != null) {
+          result.add(TickerFactory.getTickerFullLayoutObject(ticker));
+        }
       }
     } else {
       for (CurrencyPair pair : supportedCurrencyPairs) {
         Ticker ticker = getTicker(marketName, pair);
-        result.add(TickerFactory.getTickerShallowObject(ticker));
+        if (ticker != null) {
+          result.add(TickerFactory.getTickerShallowObject(ticker));
+        }
       }
     }
 
@@ -123,19 +137,7 @@ public class MarketsService {
     return markets;
   }
 
-  public List<TickerObject> ticker(String marketName) {
-    return this.ticker(marketName, null, null, false);
-  }
-
-  public List<TickerObject> ticker(String marketName, String baseCurrencyName, String counterCurrencyName) {
-    return this.ticker(marketName, baseCurrencyName, counterCurrencyName, false);
-  }
-
   private Ticker getTicker(String marketName, CurrencyPair pair) {
-    try {
       return trading.getTicker(marketName, pair);
-    } catch (Exception e) {
-      return new Ticker.Builder().build();
-    }
   }
 }

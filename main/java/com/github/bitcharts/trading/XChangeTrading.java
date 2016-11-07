@@ -107,11 +107,11 @@ public class XChangeTrading implements TradeInterface {
       if (EnumUtils.isValidEnum(Markets.class, marketName)) {
         return marketsServiceMap.get(Markets.valueOf(marketName)).getTicker(currencyPair);
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       LOG.error(e);
     }
 
-    return new Ticker.Builder().build();
+    return null;
   }
 
   @Override

@@ -34,6 +34,9 @@ public class MarketsServiceTest {
   @InjectMocks
   private MarketsService controller;
 
+  private static final String KRAKEN_MARKET = "KRAKEN";
+  public static final String MTGOX_MARKET = "MTGOX";
+
   @Test
   public void testExchanges() {
     Set markets = new HashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
@@ -44,86 +47,113 @@ public class MarketsServiceTest {
 
   @Test
   public void testSupportedCurrencies() {
-    String marketName = "KRAKEN";
     List supportedCurrencies = Arrays.asList(new CurrencyPair(Currency.BTC, Currency.EUR), new CurrencyPair(Currency.FTC, Currency.USD));
-    when(trading.getExchangeSymbols(marketName)).thenReturn(new ArrayList<>(supportedCurrencies));
+    when(trading.getExchangeSymbols(KRAKEN_MARKET)).thenReturn(new ArrayList<>(supportedCurrencies));
 
-    assertEquals(supportedCurrencies, controller.supportedCurrencies(marketName));
+    assertEquals(supportedCurrencies, controller.supportedCurrencies(KRAKEN_MARKET));
 
 
   }
 
   @Test
   public void testUnsupportedCurrencies() {
-    String marketName = "KRAKEN";
-
     List supportedCurrencies = Arrays.asList(new CurrencyPair(Currency.BTC, Currency.EUR), new CurrencyPair(Currency.FTC, Currency.USD));
     List unsupportedCurrencies = Arrays.asList(new CurrencyPair(Currency.FTC, Currency.RON));
 
-    when(trading.getExchangeSymbols(marketName)).thenReturn(new ArrayList<>(supportedCurrencies));
-    assertNotEquals(unsupportedCurrencies, controller.supportedCurrencies(marketName));
+    when(trading.getExchangeSymbols(KRAKEN_MARKET)).thenReturn(new ArrayList<>(supportedCurrencies));
+    assertNotEquals(unsupportedCurrencies, controller.supportedCurrencies(KRAKEN_MARKET));
   }
 
   @Test
   public void testUnsupportedMarketName() {
-    String marketName = "MTGOX";
-
     //List currencies = Arrays.asList(new CurrencyPair(Currency.BTC, Currency.USD));
 
     //when(trading.getExchangeSymbols(marketName)).thenReturn(new ArrayList<>(currencies));
-    assertEquals(new ArrayList<>(), controller.supportedCurrencies(marketName));
+    assertEquals(new ArrayList<>(), controller.supportedCurrencies(MTGOX_MARKET));
   }
 
   @Test
   public void testTickerWithValidMarketName() {
-    String marketName = "KRAKEN";
-    List<TickerShallowObject> result = prepareTickerShallowObjects(marketName);
+    List<TickerShallowObject> result = prepareTickerShallowObjects(KRAKEN_MARKET);
 
-    assertEquals(result, controller.ticker(marketName));
+    assertEquals(result, controller.ticker(KRAKEN_MARKET));
   }
 
   @Test
   public void testTickerWithInvalidMarketName() {
-    String marketName = "MTGOX";
-
     //setup the list of variables to be returned
-    List<TickerShallowObject> result = prepareTickerShallowObjects(marketName);
+    List<TickerShallowObject> result = prepareTickerShallowObjects(MTGOX_MARKET);
 
-    assertNotEquals(result, controller.ticker(marketName));
+    assertNotEquals(result, controller.ticker(MTGOX_MARKET));
   }
 
   @Test
   public void testTickerWithValidBaseAndCounterCurrency() {
-    String marketName = "KRAKEN";
     CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
 
-    List<TickerShallowObject> result = getTickerShallowObjects(marketName, supportedCurrencyPair);
+    List<TickerShallowObject> result = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair);
 
-    assertEquals(result, controller.ticker(marketName, supportedCurrencyPair.base.getCurrencyCode(),
+    assertEquals(result, controller.ticker(KRAKEN_MARKET, supportedCurrencyPair.base.getCurrencyCode(),
             supportedCurrencyPair.counter.getCurrencyCode()));
   }
 
   @Test
   public void testTickerWithValidBaseCurrencyAndInvalidCounterCurrency() {
-    String marketName = "KRAKEN";
     CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
 
-    List<TickerShallowObject> result = getTickerShallowObjects(marketName, supportedCurrencyPair);
+    List<TickerShallowObject> result = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair);
 
-    assertNotEquals(result, controller.ticker(marketName, supportedCurrencyPair.base.getCurrencyCode(),
+    assertNotEquals(result, controller.ticker(KRAKEN_MARKET, supportedCurrencyPair.base.getCurrencyCode(),
         Currency.AED.getCurrencyCode()));
   }
 
   @Test
   public void testTickerWithInvalidBaseCurrencyAndValidCounterCurrency() {
-    String marketName = "KRAKEN";
     CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
 
-    List<TickerShallowObject> result = getTickerShallowObjects(marketName, supportedCurrencyPair);
+    List<TickerShallowObject> result = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair);
 
-    assertNotEquals(result, controller.ticker(marketName, Currency.BTC.getCurrencyCode(),
+    assertNotEquals(result, controller.ticker(KRAKEN_MARKET, Currency.BTC.getCurrencyCode(),
         supportedCurrencyPair.base.getCurrencyCode()));
   }
+
+  @Test
+  public void testTickerForBaseCurrencyOnly() {
+    CurrencyPair supportedCurrencyPair1 = new CurrencyPair(Currency.BTC, Currency.EUR);
+    CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.BTC, Currency.USD);
+    CurrencyPair supportedCurrencyPair3 = new CurrencyPair(Currency.BTC, Currency.RON);
+
+    List<TickerShallowObject> correctResults = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair1,
+        supportedCurrencyPair2, supportedCurrencyPair3);
+
+    assertEquals(correctResults, controller.ticker(KRAKEN_MARKET, Currency.BTC.getCurrencyCode(), null));
+  }
+
+  @Test
+  public void testTickerForCounterCurrencyOnly() {
+    CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.BTC, Currency.USD);
+    CurrencyPair supportedCurrencyPair4 = new CurrencyPair(Currency.FTC, Currency.USD);
+
+    List<TickerShallowObject> correctResults = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair2,
+        supportedCurrencyPair4);
+
+    assertEquals(correctResults, controller.ticker(KRAKEN_MARKET, null, Currency.USD.getCurrencyCode()));
+  }
+
+  /*@Test
+  public void testTickerForBaseCurrencyOnly() {
+    CurrencyPair supportedCurrencyPair1 = new CurrencyPair(Currency.BTC, Currency.EUR);
+    CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.BTC, Currency.USD);
+    CurrencyPair supportedCurrencyPair3 = new CurrencyPair(Currency.BTC, Currency.RON);
+    CurrencyPair supportedCurrencyPair4 = new CurrencyPair(Currency.FTC, Currency.USD);
+    CurrencyPair supportedCurrencyPair5 = new CurrencyPair(Currency.FTC, Currency.EUR);
+    CurrencyPair supportedCurrencyPair6 = new CurrencyPair(Currency.FTC, Currency.RON);
+
+    List<TickerShallowObject> correctResults = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair1,
+        supportedCurrencyPair2, supportedCurrencyPair3);
+
+    assertEquals(correctResults, controller.ticker(KRAKEN_MARKET, Currency.BTC.getCurrencyCode(), null));
+  }*/
 
 
   private List<TickerShallowObject> prepareTickerShallowObjects(String marketName) {
