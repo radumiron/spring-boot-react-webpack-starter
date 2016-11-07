@@ -9,7 +9,14 @@ import org.apache.commons.lang3.EnumUtils;
 import org.apache.log4j.Logger;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.anx.v2.ANXExchange;
+import org.knowm.xchange.bitcoincharts.BitcoinChartsExchange;
+import org.knowm.xchange.bitcurex.BitcurexExchange;
+import org.knowm.xchange.bitstamp.BitstampExchange;
+import org.knowm.xchange.blockchain.BlockchainExchange;
+import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btce.v3.BTCEExchange;
+import org.knowm.xchange.campbx.CampBXExchange;
 import org.knowm.xchange.currency.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -55,49 +62,43 @@ public class XChangeTrading implements TradeInterface {
   private void initServices() {
     Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
     Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
-
-   /* Exchange bitcurexExchange = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
+    Exchange bitcurexExchange = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
     Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
     Exchange blockchainExchange = ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
     Exchange btcchinaExchange = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
-    Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
     Exchange campBxExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
-    Exchange anxV3Exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
-*/
+
 
     marketsExchangeMap.put(Markets.BTCE, btceExchange);
     marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
-        /*marketsExchangeMap.put(Markets.BITCOINCHARTS, bitcoinChartsExchange);
-        marketsExchangeMap.put(Markets.BITCUREX, bitcurexExchange);
-        marketsExchangeMap.put(Markets.BITSTAMP, bitstampExchange);
-        marketsExchangeMap.put(Markets.BTCCHINA, btcchinaExchange);*/
-
-        /*marketsExchangeMap.put(Markets.CAMPBX, campBxExchange);
-        //marketsExchangeMap.put(Markets.CAVIRTEX, cavirtexExchange);
-        marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);*/
+    marketsExchangeMap.put(Markets.BITCOINCHARTS, bitcoinChartsExchange);
+    marketsExchangeMap.put(Markets.BITCUREX, bitcurexExchange);
+    marketsExchangeMap.put(Markets.BITSTAMP, bitstampExchange);
+    marketsExchangeMap.put(Markets.BITSTAMP, blockchainExchange);
+    marketsExchangeMap.put(Markets.BTCCHINA, btcchinaExchange);
+    marketsExchangeMap.put(Markets.CAMPBX, campBxExchange);
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService btceService = btceExchange.getPollingMarketDataService();
     PollingMarketDataService krakenService = krakenExchange.getPollingMarketDataService();
-
-    /*PollingMarketDataService bitcurexService = bitcurexExchange.getPollingMarketDataService();
+    PollingMarketDataService bitcoinChartsService = bitcoinChartsExchange.getPollingMarketDataService();
+    PollingMarketDataService bitcurexService = bitcurexExchange.getPollingMarketDataService();
     PollingMarketDataService bitstampService = bitstampExchange.getPollingMarketDataService();
     PollingMarketDataService blockchainService = blockchainExchange.getPollingMarketDataService();
     PollingMarketDataService btcchinaService = btcchinaExchange.getPollingMarketDataService();
-
     PollingMarketDataService campBxService = campBxExchange.getPollingMarketDataService();
-    PollingMarketDataService krakenService = krakenExchange.getPollingMarketDataService();
-    PollingMarketDataService bitcoinChartsService = bitcoinChartsExchange.getPollingMarketDataService();*/
 
-        /*marketsServiceMap.put(Markets.BITCOINCHARTS, bitcoinChartsService);
-        marketsServiceMap.put(Markets.BITCUREX, bitcurexService);
-        marketsServiceMap.put(Markets.BITSTAMP, bitstampService);
-        marketsServiceMap.put(Markets.BTCCHINA, btcchinaService);*/
-    marketsServiceMap.put(Markets.BTCE, btceService);
+
     marketsServiceMap.put(Markets.KRAKEN, krakenService);
-        /*marketsServiceMap.put(Markets.CAMPBX, campBxService);*/
-    //marketsServiceMap.put(Markets.CAVIRTEX, cavirtexService);
-        /*marketsServiceMap.put(Markets.KRAKEN, krakenService);*/
+    marketsServiceMap.put(Markets.BTCE, btceService);
+    marketsServiceMap.put(Markets.BITCOINCHARTS, bitcoinChartsService);
+    marketsServiceMap.put(Markets.BITCUREX, bitcurexService);
+    marketsServiceMap.put(Markets.BITSTAMP, bitstampService);
+    marketsServiceMap.put(Markets.BITSTAMP, blockchainService);
+    marketsServiceMap.put(Markets.BTCCHINA, btcchinaService);
+    marketsServiceMap.put(Markets.CAMPBX, campBxService);
+
   }
 
   @Override
