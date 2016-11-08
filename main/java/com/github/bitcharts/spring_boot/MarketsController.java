@@ -1,7 +1,9 @@
 package com.github.bitcharts.spring_boot;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,11 @@ public class MarketsController {
 
   @RequestMapping(value={"/currencies"}, method= RequestMethod.GET)
   public @ResponseBody
-  Collection<CurrencyPair> supportedCurrencies(@RequestParam(value="market") String marketName ) {
-    return marketsService.supportedCurrencies(marketName);
+  Map<String, Collection<CurrencyPair>> supportedCurrencies(@RequestParam(value="market") String marketName ) {
+    Map<String, Collection<CurrencyPair>> result = new LinkedHashMap<>();
+
+    result.put("currencies", marketsService.supportedCurrencies(marketName));
+    return result;
   }
 
   @RequestMapping(value={"/ticker"}, method = RequestMethod.GET)
@@ -42,8 +47,12 @@ public class MarketsController {
   }
 
   @RequestMapping(method= RequestMethod.GET)
-  public @ResponseBody Collection<Markets> supportedMarkets() {
-    return marketsService.supportedMarkets();
+  public @ResponseBody
+  Map<String, Collection<Markets>> supportedMarkets() {
+    Map<String, Collection<Markets>> result = new LinkedHashMap<>();
+    result.put("markets", marketsService.supportedMarkets());
+
+    return result;
   }
 
 }

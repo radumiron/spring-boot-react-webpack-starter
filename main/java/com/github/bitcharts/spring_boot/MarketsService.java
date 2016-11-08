@@ -1,8 +1,5 @@
 package com.github.bitcharts.spring_boot;
 
-import static org.mockito.Mockito.when;
-
-import java.math.BigDecimal;
 import java.util.*;
 
 import org.apache.commons.lang3.EnumUtils;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerFactory;
 import com.github.bitcharts.model.TickerObject;
-import com.github.bitcharts.model.TickerShallowObject;
 import com.github.bitcharts.trading.XChangeTrading;
 
 /**
