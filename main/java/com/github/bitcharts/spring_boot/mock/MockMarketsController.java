@@ -23,14 +23,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerObject;
+import com.github.bitcharts.model.rest.MarketsJSON;
 import com.github.bitcharts.spring_boot.MarketsService;
 import com.github.bitcharts.trading.XChangeTrading;
+import com.github.bitcharts.trading.util.TradingJSONConverter;
 
 /**
  * Created by mironr on 11/7/2016.
  */
 @Controller
-@RequestMapping("/mock-markets")
+@RequestMapping("/mock_markets")
 @ComponentScan("com.github.bitcharts.trading")
 @RunWith(MockitoJUnitRunner.class)
 public class MockMarketsController {
@@ -69,8 +71,11 @@ public class MockMarketsController {
   }
 
   @RequestMapping(method= RequestMethod.GET)
-  public @ResponseBody Collection<Markets> supportedMarkets() {
+  public @ResponseBody Map<String, Collection<MarketsJSON>> supportedMarkets() {
     setupMock();
-    return marketsService.supportedMarkets();
+    Map<String, Collection<MarketsJSON>> result = new LinkedHashMap<>();
+    result.put("markets", TradingJSONConverter.convertMarkets(marketsService.supportedMarkets()));
+
+    return result;
   }
 }
