@@ -15,7 +15,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        client({method: 'GET', path: 'mock_markets/'}).done(response => {
+        client({method: 'GET', path: 'http://localhost:9000/mock_markets/'}).done(response => {
            this.setState({markets: response.entity.markets});
         })
     }

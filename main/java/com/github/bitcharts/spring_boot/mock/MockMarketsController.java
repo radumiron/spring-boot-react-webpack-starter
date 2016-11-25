@@ -16,10 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerObject;
@@ -35,6 +32,7 @@ import com.github.bitcharts.trading.util.TradingJSONConverter;
 @RequestMapping("/mock_markets")
 @ComponentScan("com.github.bitcharts.trading")
 @RunWith(MockitoJUnitRunner.class)
+@CrossOrigin(origins = "http://localhost:8080")
 public class MockMarketsController {
 
   @Mock
