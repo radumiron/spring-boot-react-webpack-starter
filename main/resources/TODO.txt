@@ -1,0 +1,11 @@
+Install webpack commands:
+npm install webpack --global
+npm install webpack --save-dev
+npm install webpack-dev-server -g
+npm install webpack-dev-server --save-dev
+
+
+Start webpack:
+webpack-dev-server --progress --inline
+
+
