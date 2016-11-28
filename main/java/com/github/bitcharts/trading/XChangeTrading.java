@@ -170,10 +170,8 @@ public class XChangeTrading implements TradeInterface {
     for (CurrencyPair pair : supportedCurrencies) {
       try {
         org.knowm.xchange.currency.Currency currency = pair.counter;
-        if (currency != Currency.BTC) {
-          result.add(currency);
-        }
-      } catch (Throwable e) {
+        result.add(currency);
+      } catch (Exception e) {
         LOG.warn("Cannot convert unknown currency: " + pair.toString());
       }
     }

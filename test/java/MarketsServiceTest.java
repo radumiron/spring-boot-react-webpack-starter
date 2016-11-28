@@ -35,6 +35,7 @@ public class MarketsServiceTest {
   private MarketsService controller;
 
   private static final String KRAKEN_MARKET = "KRAKEN";
+  private static final String BTCE_MARKET = "BTCE_MARKET";
   public static final String MTGOX_MARKET = "MTGOX";
 
   @Test
@@ -184,5 +185,44 @@ public class MarketsServiceTest {
     return result;
   }
 
+  @Test
+  public void testGetAllSupportedFiatCurrencies() {
+    constructCurrencyPairs();
+
+    System.out.println(controller.allSupportedFiatCurrencies(null));
+
+  }
+
+  @Test
+  public void testGetSupportedFiatCurrenciesForCryptoCurrency() {
+    constructCurrencyPairs();
+
+    System.out.println(controller.allSupportedFiatCurrencies("BTC"));
+
+  }
+
+  private void constructCurrencyPairs() {
+    Set markets = new HashSet<>(Arrays.asList(new Markets[]{Markets.KRAKEN, Markets.BTCE}));
+    CurrencyPair supportedCurrencyPair1 = new CurrencyPair(Currency.BTC, Currency.EUR);
+    CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.BTC, Currency.USD);
+    CurrencyPair supportedCurrencyPair3 = new CurrencyPair(Currency.LTC, Currency.CHF);
+    CurrencyPair supportedCurrencyPair1_1 = new CurrencyPair(Currency.EUR, Currency.BTC);
+    CurrencyPair supportedCurrencyPair2_1 = new CurrencyPair(Currency.USD, Currency.BTC);
+    CurrencyPair supportedCurrencyPair3_1 = new CurrencyPair(Currency.CHF, Currency.LTC);
+
+    CurrencyPair supportedCurrencyPair4 = new CurrencyPair(Currency.BTC, Currency.RON);
+    CurrencyPair supportedCurrencyPair5 = new CurrencyPair(Currency.BTC, Currency.CHF);
+    CurrencyPair supportedCurrencyPair4_1 = new CurrencyPair(Currency.RON, Currency.BTC);
+    CurrencyPair supportedCurrencyPair5_1 = new CurrencyPair(Currency.CHF, Currency.BTC);
+
+    List<CurrencyPair> supportedCurrencyForBTCE = Arrays.asList(supportedCurrencyPair1, supportedCurrencyPair2, supportedCurrencyPair3,
+        supportedCurrencyPair1_1, supportedCurrencyPair2_1, supportedCurrencyPair3_1);
+    List<CurrencyPair> supportedCurrencyForKraken = Arrays.asList(supportedCurrencyPair3, supportedCurrencyPair3_1, supportedCurrencyPair4, supportedCurrencyPair4_1,
+        supportedCurrencyPair5, supportedCurrencyPair5_1);
+
+    when(trading.getSupportedMarkets()).thenReturn(new HashSet<>(markets));
+    when(trading.getExchangeSymbols(KRAKEN_MARKET)).thenReturn(new ArrayList<>(supportedCurrencyForKraken));
+    when(trading.getExchangeSymbols(BTCE_MARKET)).thenReturn(new ArrayList<>(supportedCurrencyForBTCE));
+  }
 
 }

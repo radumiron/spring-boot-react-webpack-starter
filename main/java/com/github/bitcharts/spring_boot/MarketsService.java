@@ -1,8 +1,11 @@
 package com.github.bitcharts.spring_boot;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,6 +17,7 @@ import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerFactory;
 import com.github.bitcharts.model.TickerObject;
 import com.github.bitcharts.trading.XChangeTrading;
+import com.github.bitcharts.trading.util.TradingUtil;
 
 /**
  * Created by Radu on 10/28/2016.
@@ -45,7 +49,40 @@ public class MarketsService {
   }
 
   public Collection<Currency> allSupportedFiatCurrencies(String cryptoCurrency) {
-    return trading.getAllSupportedFiatCurrencies(cryptoCurrency);
+    final Set<Markets> supportedMarkets = trading.getSupportedMarkets();
+    if (StringUtils.isEmpty(cryptoCurrency)) {  //return all supported currencies
+      Set<Currency> allSupportedCurrencies = supportedMarkets
+          .parallelStream()
+          .map(market -> trading.getExchangeSymbols(market.name())
+              .stream()
+              .map(currencyPair -> currencyPair.counter)
+              .filter(currency -> TradingUtil.getFiatCurrencies().contains(currency))
+              .collect(Collectors.toSet()))
+          .reduce(new HashSet<>(),
+              (originalSet, currencySet) -> {
+                originalSet.addAll(currencySet);
+                return originalSet;
+              });
+
+      return allSupportedCurrencies;
+    } else {
+      Set<Currency> collect = supportedMarkets
+          .parallelStream()
+          .map(market -> trading.getExchangeSymbols(market.name())
+              .stream()
+              .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance
+                  (cryptoCurrency)) && TradingUtil.getFiatCurrencies().contains(currencyPair.counter))
+              .map(currencyPair -> currencyPair.counter)
+              .collect(Collectors.toSet()))
+          .reduce(new HashSet<>(),
+              (originalSet, addedSet) -> {
+                originalSet.addAll(addedSet);
+                return originalSet;
+              }
+                  );
+
+      return collect;
+    }
   }
 
   public Collection<CurrencyPair> filterSupportedCurrencies(Collection<CurrencyPair> supported,

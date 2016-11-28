@@ -51,14 +51,13 @@ public class MockMarketsController {
   private void setupMock() {
     Set markets = new HashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
     List supportedCurrencies = Arrays.asList(new CurrencyPair(Currency.BTC, Currency.EUR), new CurrencyPair(Currency.FTC, Currency.USD));
-    List supportedCurrenciesForBTCAndBTCE = Arrays.asList(Currency.USD, Currency.EUR, Currency.JPY, Currency.CNY);
-    List supportedCurrenciesForLTCAndBTCE = Arrays.asList(Currency.USD);
+    List supportedCurrenciesForBTC = Arrays.asList(Currency.USD, Currency.EUR, Currency.JPY, Currency.CNY);
+    List supportedCurrenciesForLTC = Arrays.asList(Currency.USD);
 
     when(trading.getSupportedMarkets()).thenReturn(new HashSet<>(markets));
     when(trading.getExchangeSymbols(Markets.BTCE.name())).thenReturn(new ArrayList<>(supportedCurrencies));
-    when(trading.getAllSupportedFiatCurrencies(Markets.BTCE.name())).thenReturn(supportedCurrenciesForBTCAndBTCE);
-    when(trading.getAllSupportedFiatCurrencies(Currency.BTC.getCurrencyCode())).thenReturn(supportedCurrenciesForBTCAndBTCE);
-    when(trading.getAllSupportedFiatCurrencies(Currency.LTC.getCurrencyCode())).thenReturn(supportedCurrenciesForLTCAndBTCE);
+    when(trading.getAllSupportedFiatCurrencies(Currency.BTC.getCurrencyCode())).thenReturn(supportedCurrenciesForBTC);
+    when(trading.getAllSupportedFiatCurrencies(Currency.LTC.getCurrencyCode())).thenReturn(supportedCurrenciesForLTC);
   }
 
   @RequestMapping(value={"/currencies"}, method= RequestMethod.GET)
