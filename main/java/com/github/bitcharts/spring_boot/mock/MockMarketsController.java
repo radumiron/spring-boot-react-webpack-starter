@@ -16,6 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.github.bitcharts.model.Markets;
@@ -50,15 +51,27 @@ public class MockMarketsController {
   private void setupMock() {
     Set markets = new HashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
     List supportedCurrencies = Arrays.asList(new CurrencyPair(Currency.BTC, Currency.EUR), new CurrencyPair(Currency.FTC, Currency.USD));
+    List supportedCurrenciesForBTCAndBTCE = Arrays.asList(Currency.USD, Currency.EUR, Currency.JPY, Currency.CNY);
+    List supportedCurrenciesForLTCAndBTCE = Arrays.asList(Currency.USD);
 
     when(trading.getSupportedMarkets()).thenReturn(new HashSet<>(markets));
     when(trading.getExchangeSymbols(Markets.BTCE.name())).thenReturn(new ArrayList<>(supportedCurrencies));
+    when(trading.getAllSupportedFiatCurrencies(Markets.BTCE.name())).thenReturn(supportedCurrenciesForBTCAndBTCE);
+    when(trading.getAllSupportedFiatCurrencies(Currency.BTC.getCurrencyCode())).thenReturn(supportedCurrenciesForBTCAndBTCE);
+    when(trading.getAllSupportedFiatCurrencies(Currency.LTC.getCurrencyCode())).thenReturn(supportedCurrenciesForLTCAndBTCE);
   }
 
   @RequestMapping(value={"/currencies"}, method= RequestMethod.GET)
   public @ResponseBody Collection<CurrencyPair> supportedCurrencies(@RequestParam(value = "market") String marketName) {
     setupMock();
     return marketsService.supportedCurrencies(marketName);
+  }
+
+  @RequestMapping(value={"/all_currencies"}, method= RequestMethod.GET)
+  public @ResponseBody Collection<Currency> supportedFiatCurrencies(@RequestParam(value = "cryptoCurrency", required = false) String
+                                                                              cryptoCurrency) {
+    setupMock();
+    return marketsService.allSupportedFiatCurrencies(cryptoCurrency);
   }
 
   @RequestMapping(value={"/ticker"}, method = RequestMethod.GET)

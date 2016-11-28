@@ -126,6 +126,12 @@ public class XChangeTrading implements TradeInterface {
   }
 
   @Override
+  public Collection<Currency> getAllSupportedFiatCurrencies(String cryptoCurrency) {
+    //TODO: add proper implementation to retrieve all fiat currencies for a specified crypto currencies
+    return Collections.emptyList();
+  }
+
+  @Override
   public double[] getBalance() {
     return new double[0];  //To change body of implemented methods use File | Settings | File Templates.
   }

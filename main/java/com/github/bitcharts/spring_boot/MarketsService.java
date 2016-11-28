@@ -44,6 +44,10 @@ public class MarketsService {
     }
   }
 
+  public Collection<Currency> allSupportedFiatCurrencies(String cryptoCurrency) {
+    return trading.getAllSupportedFiatCurrencies(cryptoCurrency);
+  }
+
   public Collection<CurrencyPair> filterSupportedCurrencies(Collection<CurrencyPair> supported,
                                                             Currency baseCurrency, Currency counterCurrency) {
     removeNonMatchingCurrencies(supported, baseCurrency, true);
@@ -54,6 +58,9 @@ public class MarketsService {
   }
 
   private void removeNonMatchingCurrencies(Collection<CurrencyPair> supported, Currency currency, boolean isBase) {
+    if (supported == null) {
+      return;
+    }
     Iterator<CurrencyPair> it = supported.iterator();
     //remove all currencies which are not base
     if (currency != null) {

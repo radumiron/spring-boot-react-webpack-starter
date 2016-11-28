@@ -53,4 +53,6 @@ public interface ReadOnlyTradeInterface {
   public Collection<Markets> getSupportedMarkets();
 
   public Collection<CurrencyPair> getExchangeSymbols(String marketName);
+
+  Collection<Currency> getAllSupportedFiatCurrencies(String cryptoCurrency);
 }

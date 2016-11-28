@@ -1,5 +1,5 @@
 'use strict';
-//import {Box} from 'grommet';
+import Box from 'grommet/components/Box';
 
 // tag::vars[]
 const React = require('react');
@@ -15,7 +15,7 @@ class App extends React.Component {
         this.state = {markets: []};
     }
 
-    componentDidMount() {
+    componentWillMount() {
         client({method: 'GET', path: 'http://localhost:9000/mock_markets/'}).done(response => {
            this.setState({markets: response.entity.markets});
         })
@@ -23,7 +23,9 @@ class App extends React.Component {
 
     render() {
         return (
-                <MarketList markets={this.state.markets}/>
+                <Box size="large">
+                    <MarketList markets={this.state.markets}/>
+                </Box>
             )
     }
 }
@@ -33,25 +35,22 @@ class MarketList extends React.Component {
         var markets = this.props.markets.map(market =>
             <Market key={market.name} market={market}/>
         );
+        var boxes = [];
+        for (var i = 0; i < markets.length; i++) {
+            boxes.push(<Box>{markets[i]}</Box>)
+        }
         return (
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Market</th>
-                    </tr>
-                    {markets}
-                </tbody>
-            </table>
-            )
+            <div>
+                {boxes}
+            </div>
+        )
     }
 }
 
 class Market extends React.Component {
     render() {
         return (
-            <tr>
-                <td>{this.props.market.name}</td>
-            </tr>
+                <span>{this.props.market.name}</span>
         )
     }
 }
