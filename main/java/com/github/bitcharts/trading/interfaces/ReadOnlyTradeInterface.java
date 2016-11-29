@@ -8,7 +8,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,32 +26,32 @@ public interface ReadOnlyTradeInterface {
    * the second element in USD and the third in EUR.
    * @return      an array with the current balance
    */
-  public double[] getBalance() ;
+  double[] getBalance() ;
 
 
   /**
    * Returns the current price of 1 BTC in given currency.
    * @return      a double value with the current price of 1 BTC in the Currency cur
    */
-  public <T extends TickerShallowObject> T getLastPrice(String marketName, CurrencyPair cur);
+  <T extends TickerShallowObject> T getLastPrice(String marketName, CurrencyPair cur);
 
-  public <T extends TickerShallowObject> T getPrice(Markets market, CurrencyPair currency);
+  <T extends TickerShallowObject> T getPrice(Markets market, CurrencyPair currency);
 
-  public Set<Currency> getSupportedCurrencies(Markets market);
+  Set<Currency> getSupportedCurrencies(Markets market);
 
   /**
    * Returns the lag of the trading engine.
    * @return      a string with the lag
    */
-  public String getLag(Markets market);
+  String getLag(Markets market);
 
-  public Collection<TradesFullLayoutObject> getTrades(Markets market, CurrencyPair currency, long previousTimestamp);
+  Collection<TradesFullLayoutObject> getTrades(Markets market, CurrencyPair currency, long previousTimestamp);
 
-  public Ticker getTicker(String marketName, CurrencyPair currencyPair);
+  Ticker getTicker(String marketName, CurrencyPair currencyPair);
 
-  public Collection<Markets> getSupportedMarkets();
+  Collection<Markets> getSupportedMarkets();
 
-  public Collection<CurrencyPair> getExchangeSymbols(String marketName);
+  Collection<CurrencyPair> getExchangeSymbols(String marketName);
 
   Collection<Currency> getAllSupportedFiatCurrencies(String cryptoCurrency);
 }

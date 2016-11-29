@@ -3,7 +3,7 @@ import Box from 'grommet/components/Box';
 
 // tag::vars[]
 const React = require('react');
-const ReactDOM = require('react-dom')
+const ReactDOM = require('react-dom');
 //const client = require('./client');
 const client = require('./mock_client');
 
@@ -59,4 +59,4 @@ class Market extends React.Component {
 ReactDOM.render(
 <App />,
     document.getElementById('react')
-)
+);

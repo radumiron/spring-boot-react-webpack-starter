@@ -18,7 +18,7 @@ public enum TimeInterval {
 
   private int minutes;
 
-  private TimeInterval() {
+  TimeInterval() {
   }
 
   TimeInterval(int minutes) {

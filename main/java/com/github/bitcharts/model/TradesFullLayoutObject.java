@@ -89,9 +89,8 @@ public class TradesFullLayoutObject extends TradesShallowObject {
 
     TradesFullLayoutObject that = (TradesFullLayoutObject) o;
 
-    if (tradeId != that.tradeId) return false;
+    return tradeId == that.tradeId;
 
-    return true;
   }
 
   @Override

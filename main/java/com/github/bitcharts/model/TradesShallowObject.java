@@ -44,9 +44,8 @@ public class TradesShallowObject {
 
     if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
     if (date != null ? !date.equals(that.date) : that.date != null) return false;
-    if (price != null ? !price.equals(that.price) : that.price != null) return false;
+    return price != null ? price.equals(that.price) : that.price == null;
 
-    return true;
   }
 
   @Override
