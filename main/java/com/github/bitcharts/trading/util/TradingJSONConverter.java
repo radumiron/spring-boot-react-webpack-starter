@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.rest.MarketsJSON;
@@ -14,10 +15,7 @@ import com.github.bitcharts.model.rest.MarketsJSON;
 public class TradingJSONConverter {
 
   public static Collection<MarketsJSON> convertMarkets(Collection<Markets> markets) {
-    List<MarketsJSON> result = new ArrayList<>();
-    for (Markets market : markets) {
-      result.add(new MarketsJSON(market));
-    }
+    List<MarketsJSON> result = markets.stream().map(MarketsJSON::new).collect(Collectors.toList());
 
     return result;
   }

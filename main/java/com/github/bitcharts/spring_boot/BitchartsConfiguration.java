@@ -6,12 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HelloWorldConfiguration {
+public class BitchartsConfiguration {
 
   public static void main(String[] args) {
     System.setProperty("http.proxyHost", Global.PROXY_SERVER_HOST);
     System.setProperty("http.proxyPort", Global.PROXY_SERVER_PORT);
-    SpringApplication.run(HelloWorldConfiguration.class, args);
+    SpringApplication.run(BitchartsConfiguration.class, args);
   }
 
 }
