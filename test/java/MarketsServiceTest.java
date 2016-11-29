@@ -41,8 +41,8 @@ public class MarketsServiceTest {
 
   @Test
   public void testExchanges() {
-    Set markets = new HashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
-    when(trading.getSupportedMarkets()).thenReturn(new HashSet<>(markets));
+    Set markets = new LinkedHashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
+    when(trading.getSupportedMarkets()).thenReturn(new LinkedHashSet<>(markets));
 
     assertEquals(markets, controller.supportedMarkets());
   }
@@ -192,49 +192,49 @@ public class MarketsServiceTest {
   }
   @Test
   public void testGetAllSupportedFiatCurrencies() {
-    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.EUR, Currency.USD, Currency.GBP, Currency.CHF, Currency.RON));
+    Set<Currency> correctResult = new LinkedHashSet<>(Arrays.asList(Currency.EUR, Currency.USD, Currency.GBP, Currency.CHF, Currency.RON));
 
     assertEquals(correctResult, controller.allSupportedFiatCurrencies(null));
   }
 
   @Test
   public void testGetSupportedFiatCurrenciesForCryptoCurrency() {
-    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.CHF));
+    Set<Currency> correctResult = new LinkedHashSet<>(Arrays.asList(Currency.CHF));
 
     assertEquals(correctResult, controller.allSupportedFiatCurrencies("LTC"));
   }
 
   @Test
   public void testGetSupportedFiatCurrenciesForCryptoCurrency2() {
-    Set<Currency>correctResult = new HashSet<>(Arrays.asList(Currency.USD, Currency.GBP, Currency.EUR, Currency.RON));
+    Set<Currency>correctResult = new LinkedHashSet<>(Arrays.asList(Currency.USD, Currency.GBP, Currency.EUR, Currency.RON));
 
     assertEquals(true, correctResult.equals(controller.allSupportedFiatCurrencies("BTC")));
   }
 
   @Test
   public void testGetSupportedFiatCurrenciesForInvalidCryptoCurrency() {
-    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.CHF));
+    Set<Currency> incorrectResult = new LinkedHashSet<>(Arrays.asList(Currency.CHF));
 
     assertNotEquals(incorrectResult, controller.allSupportedFiatCurrencies("EUR"));
   }
 
   @Test
   public void testGetSupportedFiatCurrenciesForInvalidCryptoCurrency2() {
-    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.USD));
+    Set<Currency> incorrectResult = new LinkedHashSet<>(Arrays.asList(Currency.USD));
 
     assertNotEquals(incorrectResult, controller.allSupportedFiatCurrencies("GBP"));
   }
 
   @Test
   public void testGetAllSupportedCryptoCurrencies() {
-    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.BTC, Currency.LTC));
+    Set<Currency> correctResult = new LinkedHashSet<>(Arrays.asList(Currency.BTC, Currency.LTC));
 
     assertEquals(correctResult, controller.allSupportedCryptoCurrencies(null));
   }
 
   @Test
   public void testGetSupportedCryptoCurrenciesForFiatCurrency() {
-    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.LTC));
+    Set<Currency> correctResult = new LinkedHashSet<>(Arrays.asList(Currency.LTC));
 
     assertEquals(correctResult, controller.allSupportedCryptoCurrencies("CHF"));
    }
@@ -242,27 +242,27 @@ public class MarketsServiceTest {
   @Test
   public void testGetSupportedCryptoCurrenciesForFiatCurrency2() {
     Set<Currency> correctResult;
-    correctResult = new HashSet<>(Arrays.asList(Currency.BTC));
+    correctResult = new LinkedHashSet<>(Arrays.asList(Currency.BTC));
 
     assertEquals(correctResult, controller.allSupportedCryptoCurrencies("GBP"));
   }
 
   @Test
   public void testGetSupportedCryptoCurrenciesForInvalidFiatCurrency() {
-    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.CHF));
+    Set<Currency> incorrectResult = new LinkedHashSet<>(Arrays.asList(Currency.CHF));
 
     assertNotEquals(incorrectResult, controller.allSupportedCryptoCurrencies("AED"));
   }
 
   @Test
   public void testGetSupportedCryptoCurrenciesForInvalidFiatCurrency2() {
-    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.UAH));
+    Set<Currency> incorrectResult = new LinkedHashSet<>(Arrays.asList(Currency.UAH));
 
     assertNotEquals(incorrectResult, controller.allSupportedCryptoCurrencies("UAH"));
   }
 
   private void constructCurrencyPairs() {
-    Set markets = new HashSet<>(Arrays.asList(new Markets[]{Markets.KRAKEN, Markets.BTCE}));
+    Set markets = new LinkedHashSet<>(Arrays.asList(new Markets[]{Markets.KRAKEN, Markets.BTCE}));
     CurrencyPair supportedCurrencyPair1 = new CurrencyPair(Currency.BTC, Currency.EUR);
     CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.BTC, Currency.USD);
     CurrencyPair supportedCurrencyPair3 = new CurrencyPair(Currency.LTC, Currency.CHF);
@@ -280,7 +280,7 @@ public class MarketsServiceTest {
     List<CurrencyPair> supportedCurrencyForKraken = Arrays.asList(supportedCurrencyPair3, supportedCurrencyPair3_1, supportedCurrencyPair4, supportedCurrencyPair4_1,
         supportedCurrencyPair5, supportedCurrencyPair5_1);
 
-    when(trading.getSupportedMarkets()).thenReturn(new HashSet<>(markets));
+    when(trading.getSupportedMarkets()).thenReturn(new LinkedHashSet<>(markets));
     when(trading.getExchangeSymbols(KRAKEN_MARKET)).thenReturn(new ArrayList<>(supportedCurrencyForKraken));
     when(trading.getExchangeSymbols(BTCE_MARKET)).thenReturn(new ArrayList<>(supportedCurrencyForBTCE));
   }

@@ -51,7 +51,7 @@ public class MockMarketsController {
   }
 
   private void setupMock() {
-    Set markets = new HashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
+    Set markets = new LinkedHashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
     List supportedCurrenciesForBTC = Arrays.asList(Currency.USD, Currency.EUR, Currency.JPY, Currency.CNY);
     List supportedCurrenciesForLTC = Arrays.asList(Currency.USD);
 
@@ -72,7 +72,7 @@ public class MockMarketsController {
     List<CurrencyPair> supportedCurrencyForKraken = Arrays.asList(supportedCurrencyPair3, supportedCurrencyPair3_1, supportedCurrencyPair4, supportedCurrencyPair4_1,
         supportedCurrencyPair5, supportedCurrencyPair5_1);
 
-    when(trading.getSupportedMarkets()).thenReturn(new HashSet<>(markets));
+    when(trading.getSupportedMarkets()).thenReturn(new LinkedHashSet<>(markets));
     when(trading.getExchangeSymbols(Markets.KRAKEN.name())).thenReturn(new ArrayList<>(supportedCurrencyForKraken));
     when(trading.getExchangeSymbols(Markets.BTCE.name())).thenReturn(new ArrayList<>(supportedCurrencyForBTCE));
 

@@ -66,7 +66,7 @@ public class MarketsService {
               .map(currencyPair -> currencyPair.counter)
               .filter(currency -> supportedCurrencies.contains(currency))
               .collect(Collectors.toSet()))
-          .reduce(new HashSet<>(),
+          .reduce(new LinkedHashSet<>(),
               (originalSet, currencySet) -> {
                 originalSet.addAll(currencySet);
                 return originalSet;
@@ -82,7 +82,7 @@ public class MarketsService {
                   (cryptoCurrency)) && supportedCurrencies.contains(currencyPair.counter))
               .map(currencyPair -> currencyPair.counter)
               .collect(Collectors.toSet()))
-          .reduce(new HashSet<>(),
+          .reduce(new LinkedHashSet<>(),
               (originalSet, addedSet) -> {
                 originalSet.addAll(addedSet);
                 return originalSet;
