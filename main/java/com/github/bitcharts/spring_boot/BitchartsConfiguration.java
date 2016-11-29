@@ -1,8 +1,10 @@
 package com.github.bitcharts.spring_boot; /**
  * Created by mironr on 10/27/2016.
  */
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bitcharts.model.rest.CurrencyMixIn;
+import com.github.bitcharts.model.rest.MyModule;
 import com.github.bitcharts.settings.Global;
 
 import org.knowm.xchange.currency.Currency;
@@ -18,6 +20,11 @@ public class BitchartsConfiguration {
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.addMixIn(Currency.class, CurrencyMixIn.class);
+    try {
+      mapper.writeValueAsString(Currency.AED);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
 
     SpringApplication.run(BitchartsConfiguration.class, args);
   }

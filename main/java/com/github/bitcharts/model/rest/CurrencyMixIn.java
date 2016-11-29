@@ -1,7 +1,11 @@
 package com.github.bitcharts.model.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,5 +17,8 @@ public abstract class CurrencyMixIn extends Currency {
   }
 
   @JsonProperty("currencyCode")
-  public abstract String getCurrencyCode();
+  private String code;
+
+  @JsonIgnore
+  private static final Map<String, Currency> currencies = new HashMap<String, Currency>();
 }
