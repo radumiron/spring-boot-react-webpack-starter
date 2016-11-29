@@ -10,6 +10,7 @@ import com.github.bitcharts.settings.Global;
 import org.knowm.xchange.currency.Currency;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class BitchartsConfiguration {
@@ -18,15 +19,14 @@ public class BitchartsConfiguration {
     System.setProperty("http.proxyHost", Global.PROXY_SERVER_HOST);
     System.setProperty("http.proxyPort", Global.PROXY_SERVER_PORT);
 
+    SpringApplication.run(BitchartsConfiguration.class, args);
+  }
+
+  @Bean
+  public ObjectMapper getObjectMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.addMixIn(Currency.class, CurrencyMixIn.class);
-    try {
-      mapper.writeValueAsString(Currency.AED);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-    }
-
-    SpringApplication.run(BitchartsConfiguration.class, args);
+    return mapper;
   }
 
 }

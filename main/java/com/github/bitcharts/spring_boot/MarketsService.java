@@ -48,7 +48,15 @@ public class MarketsService {
     }
   }
 
-  public Collection<Currency> allSupportedFiatCurrencies(String cryptoCurrency) {
+  public Collection<Currency> allSupportedFiatCurrencies(String currency) {
+    return allSupportedCurrencies(currency, TradingUtil.getCurrencies(false));
+  }
+
+  public Collection<Currency> allSupportedCryptoCurrencies(String currency) {
+    return allSupportedCurrencies(currency, TradingUtil.getCurrencies(true));
+  }
+
+  private Collection<Currency> allSupportedCurrencies(String cryptoCurrency, Set<Currency> supportedCurrencies) {
     final Set<Markets> supportedMarkets = trading.getSupportedMarkets();
     if (StringUtils.isEmpty(cryptoCurrency)) {  //return all supported currencies
       Set<Currency> allSupportedCurrencies = supportedMarkets
@@ -56,7 +64,7 @@ public class MarketsService {
           .map(market -> trading.getExchangeSymbols(market.name())
               .stream()
               .map(currencyPair -> currencyPair.counter)
-              .filter(currency -> TradingUtil.getFiatCurrencies().contains(currency))
+              .filter(currency -> supportedCurrencies.contains(currency))
               .collect(Collectors.toSet()))
           .reduce(new HashSet<>(),
               (originalSet, currencySet) -> {
@@ -71,7 +79,7 @@ public class MarketsService {
           .map(market -> trading.getExchangeSymbols(market.name())
               .stream()
               .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance
-                  (cryptoCurrency)) && TradingUtil.getFiatCurrencies().contains(currencyPair.counter))
+                  (cryptoCurrency)) && supportedCurrencies.contains(currencyPair.counter))
               .map(currencyPair -> currencyPair.counter)
               .collect(Collectors.toSet()))
           .reduce(new HashSet<>(),

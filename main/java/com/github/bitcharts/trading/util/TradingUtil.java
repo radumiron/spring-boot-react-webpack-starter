@@ -17,15 +17,7 @@ public class TradingUtil {
     return market.name().toLowerCase() + currency;
   }
 
-  public static Collection<Currency> getCryptoCurrencies() {
-    return getCurrencies(true);
-  }
-
-  public static Set<Currency> getFiatCurrencies() {
-    return getCurrencies(false);
-  }
-
-  private static Set<Currency> getCurrencies(boolean isCrypto) {
+  public static Set<Currency> getCurrencies(boolean isCrypto) {
     Set<Currency> supportedCurrencies = Currency.getAvailableCurrencies();
     Set<java.util.Currency> javaCurrencies = java.util.Currency.getAvailableCurrencies();
 
@@ -50,7 +42,7 @@ public class TradingUtil {
   }
 
   public static void main(String[] args) {
-    System.out.println(getFiatCurrencies());
-    System.out.println(getCryptoCurrencies());
+    System.out.println(getCurrencies(true));
+    System.out.println(getCurrencies(false));
   }
 }

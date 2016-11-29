@@ -19,8 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerObject;
+import com.github.bitcharts.model.rest.CurrencyMixIn;
 import com.github.bitcharts.model.rest.MarketsJSON;
 import com.github.bitcharts.spring_boot.MarketsService;
 import com.github.bitcharts.trading.XChangeTrading;
@@ -86,11 +88,18 @@ public class MockMarketsController {
     return marketsService.supportedCurrencies(marketName);
   }
 
-  @RequestMapping(value={"/all_currencies"}, method= RequestMethod.GET)
+  @RequestMapping(value={"/all_fiat_currencies"}, method= RequestMethod.GET)
   public @ResponseBody Collection<Currency> supportedFiatCurrencies(@RequestParam(value = "cryptoCurrency", required = false) String
-                                                                              cryptoCurrency) {
+                                                                        cryptoCurrency) {
     setupMock();
     return marketsService.allSupportedFiatCurrencies(cryptoCurrency);
+  }
+
+  @RequestMapping(value={"/all_crypto_currencies"}, method= RequestMethod.GET)
+  public @ResponseBody Collection<Currency> supportedCryptoCurrencies(@RequestParam(value = "fiatCurrency", required = false) String
+                                                                        cryptoCurrency) {
+    setupMock();
+    return marketsService.allSupportedCryptoCurrencies(cryptoCurrency);
   }
 
   @RequestMapping(value={"/ticker"}, method = RequestMethod.GET)

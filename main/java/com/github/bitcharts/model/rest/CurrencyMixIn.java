@@ -20,5 +20,11 @@ public abstract class CurrencyMixIn extends Currency {
   private String code;
 
   @JsonIgnore
-  private static final Map<String, Currency> currencies = new HashMap<String, Currency>();
+  public abstract Currency getCodeCurrency(String code);
+
+  @JsonIgnore
+  public abstract Currency getIso4217Currency();
+
+  @JsonIgnore
+  public abstract Currency getCommonlyUsedCurrency();
 }

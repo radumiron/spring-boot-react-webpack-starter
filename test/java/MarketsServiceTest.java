@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.util.*;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.currency.Currency;
@@ -185,20 +186,79 @@ public class MarketsServiceTest {
     return result;
   }
 
+  @Before
+  public void beforeTestCurrencies() {
+    constructCurrencyPairs();
+  }
   @Test
   public void testGetAllSupportedFiatCurrencies() {
-    constructCurrencyPairs();
+    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.EUR, Currency.USD, Currency.GBP, Currency.CHF, Currency.RON));
 
-    System.out.println(controller.allSupportedFiatCurrencies(null));
-
+    assertEquals(correctResult, controller.allSupportedFiatCurrencies(null));
   }
 
   @Test
   public void testGetSupportedFiatCurrenciesForCryptoCurrency() {
-    constructCurrencyPairs();
+    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.CHF));
 
-    System.out.println(controller.allSupportedFiatCurrencies("BTC"));
+    assertEquals(correctResult, controller.allSupportedFiatCurrencies("LTC"));
+  }
 
+  @Test
+  public void testGetSupportedFiatCurrenciesForCryptoCurrency2() {
+    Set<Currency>correctResult = new HashSet<>(Arrays.asList(Currency.USD, Currency.GBP, Currency.EUR, Currency.RON));
+
+    assertEquals(true, correctResult.equals(controller.allSupportedFiatCurrencies("BTC")));
+  }
+
+  @Test
+  public void testGetSupportedFiatCurrenciesForInvalidCryptoCurrency() {
+    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.CHF));
+
+    assertNotEquals(incorrectResult, controller.allSupportedFiatCurrencies("EUR"));
+  }
+
+  @Test
+  public void testGetSupportedFiatCurrenciesForInvalidCryptoCurrency2() {
+    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.USD));
+
+    assertNotEquals(incorrectResult, controller.allSupportedFiatCurrencies("GBP"));
+  }
+
+  @Test
+  public void testGetAllSupportedCryptoCurrencies() {
+    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.BTC, Currency.LTC));
+
+    assertEquals(correctResult, controller.allSupportedCryptoCurrencies(null));
+  }
+
+  @Test
+  public void testGetSupportedCryptoCurrenciesForFiatCurrency() {
+    Set<Currency> correctResult = new HashSet<>(Arrays.asList(Currency.LTC));
+
+    assertEquals(correctResult, controller.allSupportedCryptoCurrencies("CHF"));
+   }
+
+  @Test
+  public void testGetSupportedCryptoCurrenciesForFiatCurrency2() {
+    Set<Currency> correctResult;
+    correctResult = new HashSet<>(Arrays.asList(Currency.BTC));
+
+    assertEquals(correctResult, controller.allSupportedCryptoCurrencies("GBP"));
+  }
+
+  @Test
+  public void testGetSupportedCryptoCurrenciesForInvalidFiatCurrency() {
+    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.CHF));
+
+    assertNotEquals(incorrectResult, controller.allSupportedCryptoCurrencies("AED"));
+  }
+
+  @Test
+  public void testGetSupportedCryptoCurrenciesForInvalidFiatCurrency2() {
+    Set<Currency> incorrectResult = new HashSet<>(Arrays.asList(Currency.UAH));
+
+    assertNotEquals(incorrectResult, controller.allSupportedCryptoCurrencies("UAH"));
   }
 
   private void constructCurrencyPairs() {
@@ -211,9 +271,9 @@ public class MarketsServiceTest {
     CurrencyPair supportedCurrencyPair3_1 = new CurrencyPair(Currency.CHF, Currency.LTC);
 
     CurrencyPair supportedCurrencyPair4 = new CurrencyPair(Currency.BTC, Currency.RON);
-    CurrencyPair supportedCurrencyPair5 = new CurrencyPair(Currency.BTC, Currency.CHF);
+    CurrencyPair supportedCurrencyPair5 = new CurrencyPair(Currency.BTC, Currency.GBP);
     CurrencyPair supportedCurrencyPair4_1 = new CurrencyPair(Currency.RON, Currency.BTC);
-    CurrencyPair supportedCurrencyPair5_1 = new CurrencyPair(Currency.CHF, Currency.BTC);
+    CurrencyPair supportedCurrencyPair5_1 = new CurrencyPair(Currency.GBP, Currency.BTC);
 
     List<CurrencyPair> supportedCurrencyForBTCE = Arrays.asList(supportedCurrencyPair1, supportedCurrencyPair2, supportedCurrencyPair3,
         supportedCurrencyPair1_1, supportedCurrencyPair2_1, supportedCurrencyPair3_1);
