@@ -35,7 +35,7 @@ public class MarketsServiceTest {
   private MarketsService controller;
 
   private static final String KRAKEN_MARKET = "KRAKEN";
-  private static final String BTCE_MARKET = "BTCE_MARKET";
+  private static final String BTCE_MARKET = "BTCE";
   public static final String MTGOX_MARKET = "MTGOX";
 
   @Test
