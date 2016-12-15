@@ -1,5 +1,6 @@
 'use strict';
 import Box from 'grommet/components/Box';
+import Value from 'grommet/components/Value';
 
 // tag::vars[]
 const React = require('react');
@@ -24,7 +25,7 @@ class App extends React.Component {
     render() {
         return (
                 <Box size="large">
-                    <MarketList markets={this.state.markets}/>
+                    <MarketList key="marketList" markets={this.state.markets}/>
                 </Box>
             )
     }
@@ -37,7 +38,16 @@ class MarketList extends React.Component {
         );
         var boxes = [];
         for (var i = 0; i < markets.length; i++) {
-            boxes.push(<Box>{markets[i]}</Box>)
+            boxes.push(
+                <Box direction="row"
+                     justify="start"
+                     align="center"
+                     wrap={true}
+                     pad="medium"
+                     margin="small"
+                     colorIndex="light-1" >
+                    {markets[i]}
+                </Box>)
         }
         return (
             <div>
@@ -50,7 +60,7 @@ class MarketList extends React.Component {
 class Market extends React.Component {
     render() {
         return (
-                <span>{this.props.market.name}</span>
+            <Value value={this.props.market.name} colorIndex="light-1"/>
         )
     }
 }
