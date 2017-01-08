@@ -24,10 +24,16 @@ class App extends React.Component {
 
     render() {
         return (
-                <Box size="large">
+                <Box direction='row'
+                     justify='start'
+                     align='center'
+                     wrap={true}
+                     pad='medium'
+                     margin='small'
+                     colorIndex='light-2'>
                     <MarketList key="marketList" markets={this.state.markets}/>
                 </Box>
-            )
+            );
     }
 }
 
@@ -47,13 +53,13 @@ class MarketList extends React.Component {
                      margin="small"
                      colorIndex="light-1" >
                     {markets[i]}
-                </Box>)
+                </Box>);
         }
         return (
             <div>
                 {boxes}
             </div>
-        )
+        );
     }
 }
 
@@ -61,7 +67,7 @@ class Market extends React.Component {
     render() {
         return (
             <Value value={this.props.market.name} colorIndex="light-1"/>
-        )
+        );
     }
 }
 
