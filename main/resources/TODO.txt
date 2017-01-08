@@ -1,9 +1,15 @@
+Setup proxy for NPM:
+npm config set proxy http://proxy.bbn.hp.com:8080
+
 Install webpack commands:
 npm install webpack --global
 npm install webpack --save-dev
 npm install webpack-dev-server -g
 npm install webpack-dev-server --save-dev
+npm update
 
+Create bundle.js:
+webpack src\main\js\app.js
 
 Start webpack:
 webpack-dev-server --progress --inline
