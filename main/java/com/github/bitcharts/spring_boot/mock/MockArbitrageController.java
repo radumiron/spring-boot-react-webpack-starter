@@ -1,7 +1,6 @@
 package com.github.bitcharts.spring_boot.mock;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.junit.runner.RunWith;
@@ -28,36 +27,13 @@ public class MockArbitrageController extends AbstractMockController {
 
   @RequestMapping(value={"/markets_for_fiat_currency"})
   public @ResponseBody
-  Set<Markets> getArbitrageData(@RequestParam(value = "market") String fiatCurrency) {
-    /*List<Markets> supportedMarkets = new ArrayList<>();
-    for (Markets market : marketsService.supportedMarkets()) {
-      String marketName = market.name();
-      supportedMarkets.addAll(marketsService.supportedCurrencies(marketName)
-          .stream()
-          .filter(currencyPair -> currencyPair.base.equals(fiatCurrency))
-          .map(currencyPair -> market)
-          .collect(Collectors.toList()));
-    }*/
+  Map<String, Collection<Markets>> getArbitrageData(@RequestParam(value = "fiatCurrency") String fiatCurrency) {
+    setupMock();
 
-    return trading.getSupportedMarkets()
-        .parallelStream()
-        .map(markets -> trading.getExchangeSymbols(markets.name())
-            .parallelStream()
-            .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance(fiatCurrency)))
-            .map(currencyPair -> markets)
-            .collect(Collectors.toSet()))
-        .reduce(new LinkedHashSet<>(),
-            (originalSet, currencySet) -> {
-              originalSet.addAll(currencySet);
-              return originalSet;
-            });
-    /*return marketsService.supportedMarkets()
-        .parallelStream()
-        .map(market -> marketsService.supportedCurrencies(market.name())
-            .parallelStream()
-            .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance(fiatCurrency)))
-            .map(currencyPair -> market).findAny().orElse(null))
-        .collect(Collectors.toSet());*/
+    Map<String, Collection<Markets>> result = new LinkedHashMap<>();
+    result.put("markets", arbitrageService.getMarketsForFiatCurrency(fiatCurrency));
+
+    return result;
   }
 
 }
