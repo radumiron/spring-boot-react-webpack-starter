@@ -36,7 +36,8 @@ public class ArbitrageService {
         .parallelStream()
         .map(markets -> trading.getExchangeSymbols(markets.name())
             .parallelStream()
-            .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance(fiatCurrency)))
+            .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance(fiatCurrency))
+              || currencyPair.counter.equals(Currency.getInstance(fiatCurrency)))
             .map(currencyPair -> markets)
             .collect(Collectors.toSet()))
         .reduce(new LinkedHashSet<>(),

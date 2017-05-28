@@ -1,8 +1,10 @@
 package com.github.bitcharts.spring_boot;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +22,15 @@ import com.github.bitcharts.model.Markets;
 @ComponentScan("com.github.bitcharts.trading")
 public class ArbitrageController {
 
-  @RequestMapping(method= RequestMethod.GET)
+  @Autowired
+  private ArbitrageService arbitrageService;
+
+  @RequestMapping(value={"/markets_for_fiat_currency"})
   public @ResponseBody
-  Map<String, Collection<Markets>> supportedMarkets() {
-    return null;
+  Map<String, Collection<Markets>> getArbitrageData(@RequestParam(value = "fiatCurrency") String fiatCurrency) {
+    Map<String, Collection<Markets>> result = new LinkedHashMap<>();
+    result.put("markets", arbitrageService.getMarketsForFiatCurrency(fiatCurrency));
+
+    return result;
   }
 }
