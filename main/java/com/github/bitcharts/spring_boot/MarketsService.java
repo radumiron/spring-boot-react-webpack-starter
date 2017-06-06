@@ -77,7 +77,7 @@ public class MarketsService {
           .parallelStream()
           .map(market -> trading.getExchangeSymbols(market.name())
               .stream()
-              .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance
+              .filter(currencyPair -> currencyPair.base.equals(Currency.getInstanceNoCreate
                   (cryptoCurrency)) && supportedCurrencies.contains(currencyPair.counter))
               .map(currencyPair -> currencyPair.counter)
               .collect(Collectors.toSet()))
@@ -132,7 +132,7 @@ public class MarketsService {
     try {
       List<TickerObject> result = new ArrayList<>();
       if (baseCurrencyName != null && counterCurrencyName != null) { //return the ticker for one currency
-        CurrencyPair pair = new CurrencyPair(Currency.getInstance(baseCurrencyName), Currency.getInstance(counterCurrencyName));
+        CurrencyPair pair = new CurrencyPair(Currency.getInstanceNoCreate(baseCurrencyName), Currency.getInstanceNoCreate(counterCurrencyName));
         Ticker ticker = getTicker(marketName, pair);
         if (isFullTicker) {
           result.add(TickerFactory.getTickerFullLayoutObject(ticker));
@@ -140,10 +140,10 @@ public class MarketsService {
           result.add(TickerFactory.getTickerShallowObject(ticker));
         }
       } else if (baseCurrencyName != null) { //return the ticker for the baseCurrencyName
-        Currency baseCurrency = Currency.getInstance(baseCurrencyName);
+        Currency baseCurrency = Currency.getInstanceNoCreate(baseCurrencyName);
         result.addAll(getTickerForMarket(marketName, isFullTicker, baseCurrency, null));
       } else if (counterCurrencyName != null){
-        Currency counterCurrency = Currency.getInstance(counterCurrencyName);
+        Currency counterCurrency = Currency.getInstanceNoCreate(counterCurrencyName);
         result.addAll(getTickerForMarket(marketName, isFullTicker, null, counterCurrency));  //return ticker for all supported currencies
       } else {
         result.addAll(getTickerForMarket(marketName, isFullTicker, null, null));  //return tickers for all supported currencies

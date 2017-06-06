@@ -36,8 +36,8 @@ public class ArbitrageService {
         .parallelStream()
         .map(markets -> trading.getExchangeSymbols(markets.name())
             .parallelStream()
-            .filter(currencyPair -> currencyPair.base.equals(Currency.getInstance(fiatCurrency))
-              || currencyPair.counter.equals(Currency.getInstance(fiatCurrency)))
+            .filter(currencyPair -> currencyPair.base.equals(Currency.getInstanceNoCreate(fiatCurrency))
+              || currencyPair.counter.equals(Currency.getInstanceNoCreate(fiatCurrency)))
             .map(currencyPair -> markets)
             .collect(Collectors.toSet()))
         .reduce(new LinkedHashSet<>(),
@@ -45,6 +45,19 @@ public class ArbitrageService {
               originalSet.addAll(currencySet);
               return originalSet;
             });
+  }
+
+  public void getArbitrageDataForCurrency(String fiatCurrency) {
+    Currency currency = Currency.getInstanceNoCreate(fiatCurrency);
+    if (currency == null) {
+      return;
+    }
+
+    Set<Markets> markets = getMarketsForFiatCurrency(fiatCurrency);
+
+    for (Markets market : markets) {
+        
+    }
   }
 
 }

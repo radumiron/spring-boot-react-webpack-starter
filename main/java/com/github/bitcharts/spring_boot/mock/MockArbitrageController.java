@@ -3,6 +3,7 @@ package com.github.bitcharts.spring_boot.mock;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.currency.Currency;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -27,11 +28,19 @@ public class MockArbitrageController extends AbstractMockController {
 
   @RequestMapping(value={"/markets_for_fiat_currency"})
   public @ResponseBody
-  Map<String, Collection<Markets>> getArbitrageData(@RequestParam(value = "fiatCurrency") String fiatCurrency) {
+  Map<String, Collection<Markets>> getArbitrageData(@RequestParam(value = "fiatCurrency", required = false) String fiatCurrency,
+                                                    @RequestParam(value = "cryptoCurrency", required = false) String cryptoCurrency) {
     setupMock();
-
+    cryptoCurrency = "BTC";
     Map<String, Collection<Markets>> result = new LinkedHashMap<>();
-    result.put("markets", arbitrageService.getMarketsForFiatCurrency(fiatCurrency));
+
+    Set<Markets> supportedMarkets = trading.getSupportedMarkets();
+
+    if (StringUtils.isEmpty(fiatCurrency)) {  //return all supported markets in case there's no fiatCurrency mentioned
+      result.put("markets", supportedMarkets);
+    } else {
+      result.put("markets", arbitrageService.getMarketsForFiatCurrency(fiatCurrency));
+    }
 
     return result;
   }

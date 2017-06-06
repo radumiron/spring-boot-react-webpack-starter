@@ -22,7 +22,7 @@ import com.github.bitcharts.trading.XChangeTrading;
  */
 public class AbstractMockController {
 
-  @Mock
+  @InjectMocks
   protected MarketsService marketsService;
 
   @InjectMocks
