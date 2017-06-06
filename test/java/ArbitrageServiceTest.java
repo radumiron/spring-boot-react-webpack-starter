@@ -32,4 +32,13 @@ public class ArbitrageServiceTest extends AbstractServiceTest{
     assertEquals(markets, arbitrageService.getMarketsForFiatCurrency(Currency.USD.getCurrencyCode()));
   }
 
+  @Test
+  public void testGetMarketsForCryptoCurrency() {
+    Set<Markets> markets = new LinkedHashSet<>();
+    markets.add(Markets.BTCE);
+    markets.add(Markets.KRAKEN);
+
+    assertEquals(markets, arbitrageService.getMarketsForFiatCurrency(Currency.LTC.getCurrencyCode()));
+  }
+
 }

@@ -28,7 +28,7 @@ public class MockArbitrageController extends AbstractMockController {
 
   @RequestMapping(value={"/markets_for_fiat_currency"})
   public @ResponseBody
-  Map<String, Collection<Markets>> getArbitrageData(@RequestParam(value = "fiatCurrency", required = false) String fiatCurrency,
+  Map<String, Collection<Markets>> getArbitrageMarkets(@RequestParam(value = "fiatCurrency", required = false) String fiatCurrency,
                                                     @RequestParam(value = "cryptoCurrency", required = false) String cryptoCurrency) {
     setupMock();
     cryptoCurrency = "BTC";

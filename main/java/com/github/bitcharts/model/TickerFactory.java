@@ -14,6 +14,9 @@ public class TickerFactory {
   }
 
   public static TickerFullLayoutObject getTickerFullLayoutObject(Ticker ticker) {
+    if (ticker == null) {
+      return null;
+    }
     TickerFullLayoutObject result = new TickerFullLayoutObject(ticker.getCurrencyPair(), ticker.getLast().doubleValue(),
         ticker.getTimestamp(), ticker.getAsk().doubleValue(), -1d,
         ticker.getBid().doubleValue(), ticker.getHigh().doubleValue(), -1d, -1d, -1d,
