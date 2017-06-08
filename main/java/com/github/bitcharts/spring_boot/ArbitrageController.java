@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.bitcharts.model.ArbitrageModel;
+import com.github.bitcharts.model.MarketsModel;
 import com.github.bitcharts.model.Markets;
 
 /**
@@ -36,8 +36,8 @@ public class ArbitrageController {
 
   @RequestMapping(value={"/arbitrage_for_fiat_currency"})
   public @ResponseBody
-  Map<String, Collection<ArbitrageModel>> getArbitrageData(@RequestParam(value = "fiatCurrency") String fiatCurrency) {
-    Map<String, Collection<ArbitrageModel>> result = new LinkedHashMap<>();
+  Map<String, Collection<MarketsModel>> getArbitrageData(@RequestParam(value = "fiatCurrency") String fiatCurrency) {
+    Map<String, Collection<MarketsModel>> result = new LinkedHashMap<>();
     result.put("arbitrageData", arbitrageService.getArbitrageDataForCurrency(fiatCurrency));
 
     return result;

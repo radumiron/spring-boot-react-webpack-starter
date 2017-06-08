@@ -1,6 +1,6 @@
 package com.github.bitcharts.spring_boot;
 
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +13,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.bitcharts.model.ArbitrageModel;
+import com.github.bitcharts.model.MarketsModel;
 import com.github.bitcharts.model.Markets;
 import com.github.bitcharts.model.TickerFactory;
 import com.github.bitcharts.model.TickerFullLayoutObject;
@@ -54,30 +54,49 @@ public class ArbitrageService {
             });
   }
 
-  public Set<ArbitrageModel> getArbitrageDataForCurrency(String fiatCurrency) {
+  public Set<MarketsModel> getArbitrageDataForCurrency(String fiatCurrency) {
     Currency currency = Currency.getInstanceNoCreate(fiatCurrency);
     if (currency == null) {
       return new LinkedHashSet<>();
     }
 
-    Set<ArbitrageModel> arbitrageModels = new LinkedHashSet<>();
+    Set<MarketsModel> marketsModels = new LinkedHashSet<>();
 
     Set<Markets> markets = getMarketsForFiatCurrency(fiatCurrency);
 
-    for (Markets market : markets) {
-      ArbitrageModel model = new ArbitrageModel();
+    Map<Markets, TickerFullLayoutObject> marketToTicker = new HashMap<>();
 
-      Ticker marketTicker = trading.getTicker(market.name(), new CurrencyPair(Currency.BTC, currency));
-      TickerFullLayoutObject localTicker = TickerFactory.getTickerFullLayoutObject(marketTicker);
-      if (localTicker != null) {      //if valid ticker - taken from the market
-        model.setTicker(localTicker);
-        arbitrageModels.add(model);
+    for (Markets baseMarket : markets) {
+      MarketsModel baseMarketModel = fetchMarketModelForMarket(baseMarket, currency, marketToTicker);
+      for (Markets counterMarket : markets) {
+        MarketsModel counterMarketModel = fetchMarketModelForMarket(counterMarket, currency, marketToTicker);
+        baseMarketModel.addArbitrageModel(counterMarketModel);
       }
 
-
+      marketsModels.add(baseMarketModel);
     }
 
-    return arbitrageModels;
+    return marketsModels;
+  }
+
+  private MarketsModel fetchMarketModelForMarket(Markets market, Currency currency, Map<Markets, TickerFullLayoutObject> marketToTicker) {
+    MarketsModel model = new MarketsModel();
+    model.setMarket(market);
+
+    TickerFullLayoutObject localTicker = marketToTicker.get(market);
+    if (localTicker == null) {
+      Ticker marketTicker = trading.getTicker(market.name(), new CurrencyPair(Currency.BTC, currency));
+      localTicker = TickerFactory.getTickerFullLayoutObject(marketTicker);
+
+      //add the ticker to the cache
+      marketToTicker.put(market, localTicker);
+    }
+
+    if (localTicker != null) {
+      model.setTicker(localTicker);
+    }
+
+    return model;
   }
 
 }

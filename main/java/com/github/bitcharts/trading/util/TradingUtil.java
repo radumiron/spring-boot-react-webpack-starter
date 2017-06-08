@@ -4,6 +4,7 @@ package com.github.bitcharts.trading.util;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.github.bitcharts.model.MarketsModel;
 import com.github.bitcharts.model.Markets;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;

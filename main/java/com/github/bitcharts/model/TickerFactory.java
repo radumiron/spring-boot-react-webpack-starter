@@ -7,6 +7,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
  */
 public class TickerFactory {
   public static TickerShallowObject getTickerShallowObject(Ticker ticker) {
+    if (ticker == null) {
+      return null;
+    }
+
     TickerShallowObject result = new TickerShallowObject(ticker.getCurrencyPair(),
         ticker.getLast().doubleValue(), ticker.getTimestamp());
 

@@ -2,7 +2,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 import org.junit.Before;
@@ -10,17 +9,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.github.bitcharts.model.Markets;
-import com.github.bitcharts.model.TickerFactory;
-import com.github.bitcharts.model.TickerShallowObject;
+import com.github.bitcharts.model.TickerObject;
 import com.github.bitcharts.spring_boot.MarketsService;
-import com.github.bitcharts.trading.XChangeTrading;
 
 /**
  * Created by mironr on 11/1/2016.
@@ -69,7 +64,7 @@ public class MarketsServiceTest extends AbstractServiceTest {
 
   @Test
   public void testTickerWithValidMarketName() {
-    List<TickerShallowObject> result = prepareTickerShallowObjects(KRAKEN_MARKET);
+    List<TickerObject> result = prepareTickerShallowObjects(KRAKEN_MARKET);
 
     assertEquals(result, controller.ticker(KRAKEN_MARKET));
   }
@@ -77,7 +72,7 @@ public class MarketsServiceTest extends AbstractServiceTest {
   @Test
   public void testTickerWithInvalidMarketName() {
     //setup the list of variables to be returned
-    List<TickerShallowObject> result = prepareTickerShallowObjects(MTGOX_MARKET);
+    List<TickerObject> result = prepareTickerShallowObjects(MTGOX_MARKET);
 
     assertNotEquals(result, controller.ticker(MTGOX_MARKET));
   }
@@ -86,7 +81,7 @@ public class MarketsServiceTest extends AbstractServiceTest {
   public void testTickerWithValidBaseAndCounterCurrency() {
     CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
 
-    List<TickerShallowObject> result = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair);
+    List<TickerObject> result = getTickerObjects(KRAKEN_MARKET, false, supportedCurrencyPair);
 
     assertEquals(result, controller.ticker(KRAKEN_MARKET, supportedCurrencyPair.base.getCurrencyCode(),
             supportedCurrencyPair.counter.getCurrencyCode()));
@@ -96,7 +91,7 @@ public class MarketsServiceTest extends AbstractServiceTest {
   public void testTickerWithValidBaseCurrencyAndInvalidCounterCurrency() {
     CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
 
-    List<TickerShallowObject> result = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair);
+    List<TickerObject> result = getTickerObjects(KRAKEN_MARKET, false, supportedCurrencyPair);
 
     assertNotEquals(result, controller.ticker(KRAKEN_MARKET, supportedCurrencyPair.base.getCurrencyCode(),
         Currency.AED.getCurrencyCode()));
@@ -106,7 +101,7 @@ public class MarketsServiceTest extends AbstractServiceTest {
   public void testTickerWithInvalidBaseCurrencyAndValidCounterCurrency() {
     CurrencyPair supportedCurrencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
 
-    List<TickerShallowObject> result = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair);
+    List<TickerObject> result = getTickerObjects(KRAKEN_MARKET, false, supportedCurrencyPair);
 
     assertNotEquals(result, controller.ticker(KRAKEN_MARKET, Currency.BTC.getCurrencyCode(),
         supportedCurrencyPair.base.getCurrencyCode()));
@@ -118,7 +113,7 @@ public class MarketsServiceTest extends AbstractServiceTest {
     CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.BTC, Currency.USD);
     CurrencyPair supportedCurrencyPair3 = new CurrencyPair(Currency.BTC, Currency.RON);
 
-    List<TickerShallowObject> correctResults = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair1,
+    List<TickerObject> correctResults = getTickerObjects(KRAKEN_MARKET, false, supportedCurrencyPair1,
         supportedCurrencyPair2, supportedCurrencyPair3);
 
     assertEquals(correctResults, controller.ticker(KRAKEN_MARKET, Currency.BTC.getCurrencyCode(), null));
@@ -129,7 +124,7 @@ public class MarketsServiceTest extends AbstractServiceTest {
     CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.BTC, Currency.USD);
     CurrencyPair supportedCurrencyPair4 = new CurrencyPair(Currency.FTC, Currency.USD);
 
-    List<TickerShallowObject> correctResults = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair2,
+    List<TickerObject> correctResults = getTickerObjects(KRAKEN_MARKET, false, supportedCurrencyPair2,
         supportedCurrencyPair4);
 
     assertEquals(correctResults, controller.ticker(KRAKEN_MARKET, null, Currency.USD.getCurrencyCode()));
@@ -144,40 +139,12 @@ public class MarketsServiceTest extends AbstractServiceTest {
     CurrencyPair supportedCurrencyPair5 = new CurrencyPair(Currency.FTC, Currency.EUR);
     CurrencyPair supportedCurrencyPair6 = new CurrencyPair(Currency.FTC, Currency.RON);
 
-    List<TickerShallowObject> correctResults = getTickerShallowObjects(KRAKEN_MARKET, supportedCurrencyPair1,
+    List<TickerShallowObject> correctResults = getTickerObjects(KRAKEN_MARKET, supportedCurrencyPair1,
         supportedCurrencyPair2, supportedCurrencyPair3);
 
     assertEquals(correctResults, controller.ticker(KRAKEN_MARKET, Currency.BTC.getCurrencyCode(), null));
   }*/
 
-
-  private List<TickerShallowObject> prepareTickerShallowObjects(String marketName) {
-    //setup the list of variables to be returned
-    CurrencyPair supportedCurrencyPair1 = new CurrencyPair(Currency.BTC, Currency.EUR);
-    CurrencyPair supportedCurrencyPair2 = new CurrencyPair(Currency.FTC, Currency.USD);
-    return getTickerShallowObjects(marketName, supportedCurrencyPair1, supportedCurrencyPair2);
-  }
-
-  private List<TickerShallowObject> getTickerShallowObjects(String marketName, CurrencyPair... supportedCurrencyPairs) {
-    List<CurrencyPair> supportedCurrencies = Arrays.asList(supportedCurrencyPairs);
-    //create the assert result
-    List<TickerShallowObject> result = new ArrayList<>();
-
-    when(trading.getExchangeSymbols(marketName)).thenReturn(new ArrayList<>(supportedCurrencies));
-
-    for (CurrencyPair pair : supportedCurrencies) {
-      Ticker.Builder builder = new Ticker.Builder().ask(new BigDecimal(0)).bid(new BigDecimal(0))
-              .high(new BigDecimal(0)).last(new BigDecimal(0)).low(new BigDecimal(0))
-              .volume(new BigDecimal(0)).vwap(new BigDecimal(0)).currencyPair(pair).timestamp(new Date());
-      Ticker ticker = builder.build();
-
-      when(trading.getTicker(marketName, pair)).thenReturn(ticker);
-
-      result.add(TickerFactory.getTickerShallowObject(ticker));
-    }
-
-    return result;
-  }
 
   @Before
   public void beforeTestCurrencies() {

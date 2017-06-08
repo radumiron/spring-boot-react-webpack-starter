@@ -9,7 +9,7 @@ import java.util.Set;
 public class ArbitrageMarket {
   private Markets market;
   private Set<ArbitrageMarket> counterMarkets = new LinkedHashSet<>();
-  private TickerShallowObject tickerShallowObject = new TickerShallowObject();
+  private TickerFullLayoutObject tickerFullLayoutObject = new TickerFullLayoutObject();
 
   public ArbitrageMarket(Markets market) {
     this.market = market;
@@ -31,11 +31,11 @@ public class ArbitrageMarket {
     this.counterMarkets = counterMarkets;
   }
 
-  public TickerShallowObject getTickerShallowObject() {
-    return tickerShallowObject;
+  public TickerFullLayoutObject getTickerFullLayoutObject() {
+    return tickerFullLayoutObject;
   }
 
-  public void setTickerShallowObject(TickerShallowObject tickerShallowObject) {
-    this.tickerShallowObject = tickerShallowObject;
+  public void setTickerFullLayoutObject(TickerFullLayoutObject tickerFullLayoutObject) {
+    this.tickerFullLayoutObject = tickerFullLayoutObject;
   }
 }
