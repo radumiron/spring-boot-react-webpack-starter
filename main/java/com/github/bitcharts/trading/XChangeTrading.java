@@ -8,20 +8,55 @@ import org.apache.commons.lang3.EnumUtils;
 import org.apache.log4j.Logger;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.anx.v2.ANXExchange;
+import org.knowm.xchange.bitbay.BitbayExchange;
 import org.knowm.xchange.bitcoincharts.BitcoinChartsExchange;
+import org.knowm.xchange.bitcoinde.BitcoindeExchange;
 import org.knowm.xchange.bitcurex.BitcurexExchange;
+import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
+import org.knowm.xchange.bitkonan.BitKonanExchange;
+import org.knowm.xchange.bitmarket.BitMarketExchange;
+import org.knowm.xchange.bitso.BitsoExchange;
 import org.knowm.xchange.bitstamp.BitstampExchange;
+import org.knowm.xchange.bittrex.v1.BittrexExchange;
+import org.knowm.xchange.bleutrade.BleutradeExchange;
 import org.knowm.xchange.blockchain.BlockchainExchange;
+import org.knowm.xchange.btc38.Btc38Exchange;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btce.v3.BTCEExchange;
+import org.knowm.xchange.btctrade.BTCTradeExchange;
+import org.knowm.xchange.bter.BTERExchange;
 import org.knowm.xchange.campbx.CampBXExchange;
+import org.knowm.xchange.ccex.CCEXExchange;
+import org.knowm.xchange.cexio.CexIOExchange;
+import org.knowm.xchange.coinbase.CoinbaseExchange;
+import org.knowm.xchange.coinmate.CoinmateExchange;
+import org.knowm.xchange.cryptofacilities.CryptoFacilitiesExchange;
+import org.knowm.xchange.cryptonit.v2.CryptonitExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.empoex.EmpoExExchange;
+import org.knowm.xchange.gatecoin.GatecoinExchange;
+import org.knowm.xchange.hitbtc.HitbtcExchange;
+import org.knowm.xchange.huobi.HuobiExchange;
+import org.knowm.xchange.independentreserve.IndependentReserveExchange;
+import org.knowm.xchange.itbit.v1.ItBitExchange;
+import org.knowm.xchange.jubi.JubiExchange;
 import org.knowm.xchange.kraken.KrakenExchange;
+import org.knowm.xchange.lakebtc.LakeBTCExchange;
+import org.knowm.xchange.loyalbit.LoyalbitExchange;
+import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
+import org.knowm.xchange.okcoin.OkCoinExchange;
+import org.knowm.xchange.poloniex.PoloniexExchange;
+import org.knowm.xchange.quoine.QuoineExchange;
+import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.taurus.TaurusExchange;
+import org.knowm.xchange.therock.TheRockExchange;
+import org.knowm.xchange.vircurex.VircurexExchange;
 import org.springframework.stereotype.Component;
 
 import com.github.bitcharts.model.*;
@@ -56,15 +91,52 @@ public class XChangeTrading implements TradeInterface {
   }
 
   private void initServices() {
-    Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
-    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange anxExchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
+    Exchange bitbayExchange = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
     Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
+    Exchange bitcoindeExchange = ExchangeFactory.INSTANCE.createExchange(BitcoindeExchange.class.getName());
     Exchange bitcurexExchange = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    Exchange bitfinexExchange = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    Exchange bitkonanExchange = ExchangeFactory.INSTANCE.createExchange(BitKonanExchange.class.getName());
+    Exchange bitmarketExchange = ExchangeFactory.INSTANCE.createExchange(BitMarketExchange.class.getName());
+    Exchange bitsoExchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
     Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+    Exchange bittrexExchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
+    Exchange bitvcExchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName());
+    Exchange bleutradeExchange = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getName());
     Exchange blockchainExchange = ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
+    Exchange btc38Exchange = ExchangeFactory.INSTANCE.createExchange(Btc38Exchange.class.getName());
     Exchange btcchinaExchange = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
-    Exchange campBxExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
+    Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    Exchange btctradeExchange = ExchangeFactory.INSTANCE.createExchange(BTCTradeExchange.class.getName());
+    Exchange bterExchange = ExchangeFactory.INSTANCE.createExchange(BTERExchange.class.getName());
+    Exchange campbxExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
+    Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
+    Exchange cexioExchange = ExchangeFactory.INSTANCE.createExchange(CexIOExchange.class.getName());
+    Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName());
+    Exchange coinmateExchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    Exchange cryptofacilitiesExchange = ExchangeFactory.INSTANCE.createExchange(CryptoFacilitiesExchange.class.getName());
+    Exchange cryptonitExchange = ExchangeFactory.INSTANCE.createExchange(CryptonitExchange.class.getName());
+    Exchange empoexExchange = ExchangeFactory.INSTANCE.createExchange(EmpoExExchange.class.getName());
+    Exchange gatecoinExchange = ExchangeFactory.INSTANCE.createExchange(GatecoinExchange.class.getName());
+    Exchange hitbcExchange = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class.getName());
+    Exchange huobiExchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName());
+    Exchange independentReservecExchange = ExchangeFactory.INSTANCE.createExchange(IndependentReserveExchange.class.getName());
+    Exchange itbitExchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    Exchange jubiExchange = ExchangeFactory.INSTANCE.createExchange(JubiExchange.class.getName());
 
+    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+
+    Exchange lakebtExchange = ExchangeFactory.INSTANCE.createExchange(LakeBTCExchange.class.getName());
+    Exchange loyalbitExchange = ExchangeFactory.INSTANCE.createExchange(LoyalbitExchange.class.getName());
+    Exchange mercadoExchange = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
+    Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(OkCoinExchange.class.getName());
+    Exchange poloniexExchange = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
+    Exchange quoineExchange = ExchangeFactory.INSTANCE.createExchange(QuoineExchange.class.getName());
+    Exchange rippleExchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
+    Exchange taurusExchange = ExchangeFactory.INSTANCE.createExchange(TaurusExchange.class.getName());
+    Exchange therockExchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
+    Exchange vircurexExchange = ExchangeFactory.INSTANCE.createExchange(VircurexExchange.class.getName());
 
     marketsExchangeMap.put(Markets.BTCE, btceExchange);
     marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
@@ -73,7 +145,7 @@ public class XChangeTrading implements TradeInterface {
     marketsExchangeMap.put(Markets.BITSTAMP, bitstampExchange);
     marketsExchangeMap.put(Markets.BITSTAMP, blockchainExchange);
     marketsExchangeMap.put(Markets.BTCCHINA, btcchinaExchange);
-    marketsExchangeMap.put(Markets.CAMPBX, campBxExchange);
+    marketsExchangeMap.put(Markets.CAMPBX, campbxExchange);
 
     // Interested in the public polling market data feed (no authentication)
     MarketDataService btceService = btceExchange.getMarketDataService();
@@ -83,7 +155,7 @@ public class XChangeTrading implements TradeInterface {
     MarketDataService bitstampService = bitstampExchange.getMarketDataService();
     MarketDataService blockchainService = blockchainExchange.getMarketDataService();
     MarketDataService btcchinaService = btcchinaExchange.getMarketDataService();
-    MarketDataService campBxService = campBxExchange.getMarketDataService();
+    MarketDataService campBxService = campbxExchange.getMarketDataService();
 
 
     marketsServiceMap.put(Markets.KRAKEN, krakenService);
