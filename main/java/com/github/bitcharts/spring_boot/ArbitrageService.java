@@ -40,7 +40,7 @@ public class ArbitrageService {
 
   public Set<Markets> getMarketsForFiatCurrency(String fiatCurrency) {
     return trading.getSupportedMarkets()
-        .parallelStream()
+        .stream()
         .map(markets -> trading.getExchangeSymbols(markets.name())
             .parallelStream()
             .filter(currencyPair -> currencyPair.base.equals(Currency.getInstanceNoCreate(fiatCurrency))
