@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,18 +52,28 @@ public class ArbitrageServiceTest extends AbstractServiceTest{
     markets.add(Markets.KRAKEN);
 
     //setup the list of variables to be returned
-    List<TickerObject> resultKraken = prepareTickerFullLayoutObjects(KRAKEN_MARKET);
-    List<TickerObject> resultBTCE = prepareTickerFullLayoutObjects(BTCE_MARKET);
+    CurrencyPair supportedCurrencyPair1 = new CurrencyPair(Currency.BTC, Currency.EUR);
+    List<TickerObject> resultKraken = getTickerObjects(KRAKEN_MARKET, true, supportedCurrencyPair1);
+
+    //setup the list of variables to be returned
+    List<TickerObject> resultBTCE = getTickerObjects(BTCE_MARKET, true, supportedCurrencyPair1);
 
     Set<MarketsModel> result = arbitrageService.getArbitrageDataForCurrency(Currency.EUR.getCurrencyCode());
     for (MarketsModel model : result) {
       if (Markets.BTCE.equals(model.getMarket())) {
-        List<TickerShallowObject> compareResult = model.getMarketsModels().stream().map(MarketsModel::getTicker).collect(Collectors.toList());
-
+        List<TickerShallowObject> compareResult = model.getMarketsModels()
+            .stream()
+            .filter(marketsModel -> Markets.BTCE.equals(marketsModel.getMarket()))
+            .map(MarketsModel::getTicker)
+            .collect(Collectors.toList());
         assertEquals(resultBTCE, compareResult);
       }
       if (Markets.KRAKEN.equals(model.getMarket())) {
-        List<TickerShallowObject> compareResult = model.getMarketsModels().stream().map(MarketsModel::getTicker).collect(Collectors.toList());
+        List<TickerShallowObject> compareResult = model.getMarketsModels()
+            .stream()
+            .filter(marketsModel -> Markets.KRAKEN.equals(marketsModel.getMarket()))
+            .map(MarketsModel::getTicker)
+            .collect(Collectors.toList());
 
         assertEquals(resultKraken, compareResult);
       }
