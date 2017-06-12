@@ -1,15 +1,13 @@
 package com.github.bitcharts.trading;
 
+import java.util.*;
 
-import com.github.bitcharts.model.*;
-import com.github.bitcharts.trading.interfaces.TradeInterface;
-import com.github.bitcharts.trading.util.TradingUtil;
+import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.log4j.Logger;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.anx.v2.ANXExchange;
 import org.knowm.xchange.bitcoincharts.BitcoinChartsExchange;
 import org.knowm.xchange.bitcurex.BitcurexExchange;
 import org.knowm.xchange.bitstamp.BitstampExchange;
@@ -17,20 +15,18 @@ import org.knowm.xchange.blockchain.BlockchainExchange;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btce.v3.BTCEExchange;
 import org.knowm.xchange.campbx.CampBXExchange;
-import org.knowm.xchange.currency.*;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.kraken.KrakenExchange;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.springframework.context.annotation.Primary;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
-import java.io.IOException;
-import java.util.*;
+import com.github.bitcharts.model.*;
+import com.github.bitcharts.trading.interfaces.TradeInterface;
+import com.github.bitcharts.trading.util.TradingUtil;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,7 +40,7 @@ public class XChangeTrading implements TradeInterface {
 
   private static final Logger LOG = Logger.getLogger(XChangeTrading.class);
 
-  private Map<Markets, PollingMarketDataService> marketsServiceMap;
+  private Map<Markets, MarketDataService> marketsServiceMap;
   private Map<Markets, Exchange> marketsExchangeMap;
 
   @PostConstruct
@@ -80,14 +76,14 @@ public class XChangeTrading implements TradeInterface {
     marketsExchangeMap.put(Markets.CAMPBX, campBxExchange);
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService btceService = btceExchange.getPollingMarketDataService();
-    PollingMarketDataService krakenService = krakenExchange.getPollingMarketDataService();
-    PollingMarketDataService bitcoinChartsService = bitcoinChartsExchange.getPollingMarketDataService();
-    PollingMarketDataService bitcurexService = bitcurexExchange.getPollingMarketDataService();
-    PollingMarketDataService bitstampService = bitstampExchange.getPollingMarketDataService();
-    PollingMarketDataService blockchainService = blockchainExchange.getPollingMarketDataService();
-    PollingMarketDataService btcchinaService = btcchinaExchange.getPollingMarketDataService();
-    PollingMarketDataService campBxService = campBxExchange.getPollingMarketDataService();
+    MarketDataService btceService = btceExchange.getMarketDataService();
+    MarketDataService krakenService = krakenExchange.getMarketDataService();
+    MarketDataService bitcoinChartsService = bitcoinChartsExchange.getMarketDataService();
+    MarketDataService bitcurexService = bitcurexExchange.getMarketDataService();
+    MarketDataService bitstampService = bitstampExchange.getMarketDataService();
+    MarketDataService blockchainService = blockchainExchange.getMarketDataService();
+    MarketDataService btcchinaService = btcchinaExchange.getMarketDataService();
+    MarketDataService campBxService = campBxExchange.getMarketDataService();
 
 
     marketsServiceMap.put(Markets.KRAKEN, krakenService);
@@ -223,7 +219,7 @@ public class XChangeTrading implements TradeInterface {
     return null;  //To change body of implemented methods use File | Settings | File Templates.
   }
 
-  public Map<Markets, PollingMarketDataService> getMarketsServiceMap() {
+  public Map<Markets, MarketDataService> getMarketsServiceMap() {
     return marketsServiceMap;
   }
 
