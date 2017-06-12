@@ -18,7 +18,8 @@ public enum Markets {
   CAMPBX,
   CAVIRTEX,
   KRAKEN,
-  ANXv3
+  ANXv3,
+  OKCOIN
 
 /*Complete list of Markets:
 Exchange	Type	Market Data	Trading	Account	Notes

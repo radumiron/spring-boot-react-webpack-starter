@@ -91,7 +91,7 @@ public class XChangeTrading implements TradeInterface {
   }
 
   private void initServices() {
-    Exchange anxExchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
+/*    Exchange anxExchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     Exchange bitbayExchange = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
     Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
     Exchange bitcoindeExchange = ExchangeFactory.INSTANCE.createExchange(BitcoindeExchange.class.getName());
@@ -107,7 +107,6 @@ public class XChangeTrading implements TradeInterface {
     Exchange blockchainExchange = ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
     Exchange btc38Exchange = ExchangeFactory.INSTANCE.createExchange(Btc38Exchange.class.getName());
     Exchange btcchinaExchange = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
-    Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
     Exchange btctradeExchange = ExchangeFactory.INSTANCE.createExchange(BTCTradeExchange.class.getName());
     Exchange bterExchange = ExchangeFactory.INSTANCE.createExchange(BTERExchange.class.getName());
     Exchange campbxExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
@@ -125,7 +124,7 @@ public class XChangeTrading implements TradeInterface {
     Exchange itbitExchange = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
     Exchange jubiExchange = ExchangeFactory.INSTANCE.createExchange(JubiExchange.class.getName());
 
-    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+
 
     Exchange lakebtExchange = ExchangeFactory.INSTANCE.createExchange(LakeBTCExchange.class.getName());
     Exchange loyalbitExchange = ExchangeFactory.INSTANCE.createExchange(LoyalbitExchange.class.getName());
@@ -136,36 +135,25 @@ public class XChangeTrading implements TradeInterface {
     Exchange rippleExchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
     Exchange taurusExchange = ExchangeFactory.INSTANCE.createExchange(TaurusExchange.class.getName());
     Exchange therockExchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
-    Exchange vircurexExchange = ExchangeFactory.INSTANCE.createExchange(VircurexExchange.class.getName());
+    Exchange vircurexExchange = ExchangeFactory.INSTANCE.createExchange(VircurexExchange.class.getName());*/
 
+    Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(OkCoinExchange.class.getName());
     marketsExchangeMap.put(Markets.BTCE, btceExchange);
     marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
-    marketsExchangeMap.put(Markets.BITCOINCHARTS, bitcoinChartsExchange);
-    marketsExchangeMap.put(Markets.BITCUREX, bitcurexExchange);
-    marketsExchangeMap.put(Markets.BITSTAMP, bitstampExchange);
-    marketsExchangeMap.put(Markets.BITSTAMP, blockchainExchange);
-    marketsExchangeMap.put(Markets.BTCCHINA, btcchinaExchange);
-    marketsExchangeMap.put(Markets.CAMPBX, campbxExchange);
+    marketsExchangeMap.put(Markets.OKCOIN, okcoinExchange);
+
 
     // Interested in the public polling market data feed (no authentication)
     MarketDataService btceService = btceExchange.getMarketDataService();
     MarketDataService krakenService = krakenExchange.getMarketDataService();
-    MarketDataService bitcoinChartsService = bitcoinChartsExchange.getMarketDataService();
-    MarketDataService bitcurexService = bitcurexExchange.getMarketDataService();
-    MarketDataService bitstampService = bitstampExchange.getMarketDataService();
-    MarketDataService blockchainService = blockchainExchange.getMarketDataService();
-    MarketDataService btcchinaService = btcchinaExchange.getMarketDataService();
-    MarketDataService campBxService = campbxExchange.getMarketDataService();
+    MarketDataService okcoinService = okcoinExchange.getMarketDataService();
 
 
     marketsServiceMap.put(Markets.KRAKEN, krakenService);
     marketsServiceMap.put(Markets.BTCE, btceService);
-    marketsServiceMap.put(Markets.BITCOINCHARTS, bitcoinChartsService);
-    marketsServiceMap.put(Markets.BITCUREX, bitcurexService);
-    marketsServiceMap.put(Markets.BITSTAMP, bitstampService);
-    marketsServiceMap.put(Markets.BITSTAMP, blockchainService);
-    marketsServiceMap.put(Markets.BTCCHINA, btcchinaService);
-    marketsServiceMap.put(Markets.CAMPBX, campBxService);
+    marketsServiceMap.put(Markets.CAMPBX, okcoinService);
 
   }
 
