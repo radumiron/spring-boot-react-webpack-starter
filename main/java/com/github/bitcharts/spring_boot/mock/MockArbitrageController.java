@@ -9,10 +9,7 @@ import org.knowm.xchange.currency.Currency;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.bitcharts.model.Markets;
 
@@ -26,7 +23,7 @@ import com.github.bitcharts.model.Markets;
 @CrossOrigin(origins = "http://localhost:8080")
 public class MockArbitrageController extends AbstractMockController {
 
-  @RequestMapping(value={"/markets_for_fiat_currency"})
+  @RequestMapping(value={"/markets_for_fiat_currency"}, method= RequestMethod.GET)
   public @ResponseBody
   Map<String, Collection<Markets>> getArbitrageMarkets(@RequestParam(value = "fiatCurrency", required = false) String fiatCurrency,
                                                     @RequestParam(value = "cryptoCurrency", required = false) String cryptoCurrency) {
