@@ -91,6 +91,7 @@ public class XChangeTrading implements TradeInterface {
   }
 
   private void initServices() {
+    try {
 /*    Exchange anxExchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     Exchange bitbayExchange = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
     Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
@@ -137,24 +138,24 @@ public class XChangeTrading implements TradeInterface {
     Exchange therockExchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
     Exchange vircurexExchange = ExchangeFactory.INSTANCE.createExchange(VircurexExchange.class.getName());*/
 
-    Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
-    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
-    Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(OkCoinExchange.class.getName());
-    marketsExchangeMap.put(Markets.BTCE, btceExchange);
-    marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
-    marketsExchangeMap.put(Markets.OKCOIN, okcoinExchange);
+      Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+      Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+      Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(OkCoinExchange.class.getName());
+      marketsExchangeMap.put(Markets.BTCE, btceExchange);
+      marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
+      marketsExchangeMap.put(Markets.OKCOIN, okcoinExchange);
 
+      // Interested in the public polling market data feed (no authentication)
+      MarketDataService btceService = btceExchange.getMarketDataService();
+      MarketDataService krakenService = krakenExchange.getMarketDataService();
+      MarketDataService okcoinService = okcoinExchange.getMarketDataService();
 
-    // Interested in the public polling market data feed (no authentication)
-    MarketDataService btceService = btceExchange.getMarketDataService();
-    MarketDataService krakenService = krakenExchange.getMarketDataService();
-    MarketDataService okcoinService = okcoinExchange.getMarketDataService();
-
-
-    marketsServiceMap.put(Markets.KRAKEN, krakenService);
-    marketsServiceMap.put(Markets.BTCE, btceService);
-    marketsServiceMap.put(Markets.CAMPBX, okcoinService);
-
+      marketsServiceMap.put(Markets.KRAKEN, krakenService);
+      marketsServiceMap.put(Markets.BTCE, btceService);
+      marketsServiceMap.put(Markets.CAMPBX, okcoinService);
+    } catch (Exception e) {
+      LOG.error(e);
+    }
   }
 
   @Override
