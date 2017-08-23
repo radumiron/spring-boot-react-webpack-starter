@@ -68,7 +68,11 @@ public class ArbitrageService {
 
     for (Markets baseMarket : markets) {
       MarketsModel baseMarketModel = fetchMarketModelForMarket(baseMarket, currency, marketToTicker);
-      for (Markets counterMarket : markets) {
+      for (Markets counterMarket : markets
+          .stream()
+          .filter(market -> !market.equals(baseMarket))
+          .collect(Collectors.toSet())) { //filter out the ame market as baseMarket
+
         MarketsModel counterMarketModel = fetchMarketModelForMarket(counterMarket, currency, marketToTicker);
         baseMarketModel.addArbitrageModel(counterMarketModel);
       }
