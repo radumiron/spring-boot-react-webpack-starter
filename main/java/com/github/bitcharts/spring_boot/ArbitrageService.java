@@ -71,7 +71,7 @@ public class ArbitrageService {
       for (Markets counterMarket : markets
           .stream()
           .filter(market -> !market.equals(baseMarket))
-          .collect(Collectors.toSet())) { //filter out the ame market as baseMarket
+          .collect(Collectors.toSet())) {
 
         MarketsModel counterMarketModel = fetchMarketModelForMarket(counterMarket, currency, marketToTicker);
         baseMarketModel.addArbitrageModel(counterMarketModel);

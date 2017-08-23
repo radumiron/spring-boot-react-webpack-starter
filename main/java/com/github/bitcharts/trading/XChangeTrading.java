@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.anx.v2.ANXExchange;
+import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -46,7 +47,7 @@ public class XChangeTrading implements TradeInterface {
     try {
       initServices();
     } catch (Exception e) {
-      LOG.error(e);
+      LOG.error(e, e);
     }
   }
 
@@ -97,22 +98,22 @@ public class XChangeTrading implements TradeInterface {
     Exchange therockExchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
     Exchange vircurexExchange = ExchangeFactory.INSTANCE.createExchange(VircurexExchange.class.getName());*/
 
-      Exchange anxExchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
+     Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
       //Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
       Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
       Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(OkCoinExchange.class.getName());
       //marketsExchangeMap.put(Markets.BTCE, btceExchange);
       marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
       marketsExchangeMap.put(Markets.OKCOIN, okcoinExchange);
-      marketsExchangeMap.put(Markets.ANXV3, anxExchange);
+      marketsExchangeMap.put(Markets.BITSTAMP, bitstampExchange);
 
       // Interested in the public polling market data feed (no authentication)
-      MarketDataService anxService = anxExchange.getMarketDataService();
+      MarketDataService bitstampService = bitstampExchange.getMarketDataService();
       MarketDataService krakenService = krakenExchange.getMarketDataService();
       MarketDataService okcoinService = okcoinExchange.getMarketDataService();
 
       marketsServiceMap.put(Markets.KRAKEN, krakenService);
-      marketsServiceMap.put(Markets.BTCE, anxService);
+      marketsServiceMap.put(Markets.BITSTAMP, bitstampService);
       marketsServiceMap.put(Markets.OKCOIN, okcoinService);
   }
 
@@ -123,7 +124,7 @@ public class XChangeTrading implements TradeInterface {
         return marketsServiceMap.get(Markets.valueOf(marketName)).getTicker(currencyPair);
       }
     } catch (Exception e) {
-      LOG.error(e);
+      LOG.error(e, e);
     }
 
     return null;
@@ -242,7 +243,7 @@ public class XChangeTrading implements TradeInterface {
     return marketsServiceMap;
   }
 
-  public Map<Markets, Exchange> getMarketsExchangeMap() {
+  private Map<Markets, Exchange> getMarketsExchangeMap() {
     return marketsExchangeMap;
   }
 }

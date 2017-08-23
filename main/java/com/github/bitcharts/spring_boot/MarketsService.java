@@ -42,7 +42,7 @@ public class MarketsService {
         return Collections.emptyList();
       }
     } catch (Exception e) {
-      LOG.error(e);
+      LOG.error(e, e);
       return Collections.emptyList();
     }
   }
@@ -151,7 +151,7 @@ public class MarketsService {
 
       return result;
     } catch (Exception e) {
-      LOG.error(e);
+      LOG.error(e, e);
       return Collections.emptyList();
     }
   }
