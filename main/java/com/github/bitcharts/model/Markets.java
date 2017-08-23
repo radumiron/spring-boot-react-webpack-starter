@@ -18,13 +18,13 @@ public enum Markets {
   CAMPBX,
   CAVIRTEX,
   KRAKEN,
-  ANXv3,
+  ANXV3,
   OKCOIN
 
 /*Complete list of Markets:
 Exchange	Type	Market Data	Trading	Account	Notes
 ANXv2	BTC, altcoins	Y	Y	Y
-ANXv3	BTC, altcoins	N	N	N
+ANXV3	BTC, altcoins	N	N	N
 Atlas ATS	BTC, altcoins	N	N	N	partial implementation only
 Bitbay	Bitcoin, LTC	Y	N	N	no unit tests
 bitcoin.de	Bitcoin, LTC	Y	N	N	no unit tests

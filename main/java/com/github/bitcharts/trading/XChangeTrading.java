@@ -9,54 +9,14 @@ import org.apache.log4j.Logger;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.anx.v2.ANXExchange;
-import org.knowm.xchange.bitbay.BitbayExchange;
-import org.knowm.xchange.bitcoincharts.BitcoinChartsExchange;
-import org.knowm.xchange.bitcoinde.BitcoindeExchange;
-import org.knowm.xchange.bitcurex.BitcurexExchange;
-import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
-import org.knowm.xchange.bitkonan.BitKonanExchange;
-import org.knowm.xchange.bitmarket.BitMarketExchange;
-import org.knowm.xchange.bitso.BitsoExchange;
-import org.knowm.xchange.bitstamp.BitstampExchange;
-import org.knowm.xchange.bittrex.v1.BittrexExchange;
-import org.knowm.xchange.bleutrade.BleutradeExchange;
-import org.knowm.xchange.blockchain.BlockchainExchange;
-import org.knowm.xchange.btc38.Btc38Exchange;
-import org.knowm.xchange.btcchina.BTCChinaExchange;
-import org.knowm.xchange.btce.v3.BTCEExchange;
-import org.knowm.xchange.btctrade.BTCTradeExchange;
-import org.knowm.xchange.bter.BTERExchange;
-import org.knowm.xchange.campbx.CampBXExchange;
-import org.knowm.xchange.ccex.CCEXExchange;
-import org.knowm.xchange.cexio.CexIOExchange;
-import org.knowm.xchange.coinbase.CoinbaseExchange;
-import org.knowm.xchange.coinmate.CoinmateExchange;
-import org.knowm.xchange.cryptofacilities.CryptoFacilitiesExchange;
-import org.knowm.xchange.cryptonit.v2.CryptonitExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.empoex.EmpoExExchange;
-import org.knowm.xchange.gatecoin.GatecoinExchange;
-import org.knowm.xchange.hitbtc.HitbtcExchange;
-import org.knowm.xchange.huobi.HuobiExchange;
-import org.knowm.xchange.independentreserve.IndependentReserveExchange;
-import org.knowm.xchange.itbit.v1.ItBitExchange;
-import org.knowm.xchange.jubi.JubiExchange;
 import org.knowm.xchange.kraken.KrakenExchange;
-import org.knowm.xchange.lakebtc.LakeBTCExchange;
-import org.knowm.xchange.loyalbit.LoyalbitExchange;
-import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.okcoin.OkCoinExchange;
-import org.knowm.xchange.poloniex.PoloniexExchange;
-import org.knowm.xchange.quoine.QuoineExchange;
-import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.taurus.TaurusExchange;
-import org.knowm.xchange.therock.TheRockExchange;
-import org.knowm.xchange.vircurex.VircurexExchange;
 import org.springframework.stereotype.Component;
 
 import com.github.bitcharts.model.*;
@@ -91,7 +51,6 @@ public class XChangeTrading implements TradeInterface {
   }
 
   private void initServices() {
-    try {
 /*    Exchange anxExchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     Exchange bitbayExchange = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
     Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
@@ -138,24 +97,23 @@ public class XChangeTrading implements TradeInterface {
     Exchange therockExchange = ExchangeFactory.INSTANCE.createExchange(TheRockExchange.class.getName());
     Exchange vircurexExchange = ExchangeFactory.INSTANCE.createExchange(VircurexExchange.class.getName());*/
 
-      Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+      Exchange anxExchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
+      //Exchange btceExchange = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
       Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
       Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(OkCoinExchange.class.getName());
-      marketsExchangeMap.put(Markets.BTCE, btceExchange);
+      //marketsExchangeMap.put(Markets.BTCE, btceExchange);
       marketsExchangeMap.put(Markets.KRAKEN, krakenExchange);
       marketsExchangeMap.put(Markets.OKCOIN, okcoinExchange);
+      marketsExchangeMap.put(Markets.ANXV3, anxExchange);
 
       // Interested in the public polling market data feed (no authentication)
-      MarketDataService btceService = btceExchange.getMarketDataService();
+      MarketDataService anxService = anxExchange.getMarketDataService();
       MarketDataService krakenService = krakenExchange.getMarketDataService();
       MarketDataService okcoinService = okcoinExchange.getMarketDataService();
 
       marketsServiceMap.put(Markets.KRAKEN, krakenService);
-      marketsServiceMap.put(Markets.BTCE, btceService);
-      marketsServiceMap.put(Markets.CAMPBX, okcoinService);
-    } catch (Exception e) {
-      LOG.error(e);
-    }
+      marketsServiceMap.put(Markets.BTCE, anxService);
+      marketsServiceMap.put(Markets.OKCOIN, okcoinService);
   }
 
   @Override
