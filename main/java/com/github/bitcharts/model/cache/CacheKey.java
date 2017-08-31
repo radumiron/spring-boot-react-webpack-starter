@@ -4,9 +4,9 @@ package com.github.bitcharts.model.cache;
  * Created by Radu on 8/23/2017.
  */
 public interface CacheKey {
-  enum Cache2KCacheKeyType {
+  enum CacheKeyType {
     SUPPORTED_MARKETS
   }
 
-  Cache2KCacheKeyType getType();
+  CacheKeyType getType();
 }

@@ -5,13 +5,13 @@ package com.github.bitcharts.model.cache;
  */
 public final class Cache2KCacheKey implements CacheKey {
 
-  private Cache2KCacheKeyType keyType;
+  private CacheKeyType keyType;
 
-  public Cache2KCacheKey(Cache2KCacheKeyType keyType) {
+  public Cache2KCacheKey(CacheKeyType keyType) {
     this.keyType = keyType;
   }
 
-  public Cache2KCacheKeyType getType() {
+  public CacheKeyType getType() {
     return keyType;
   }
 

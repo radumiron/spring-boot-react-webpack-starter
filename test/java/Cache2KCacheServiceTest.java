@@ -39,7 +39,7 @@ public class Cache2KCacheServiceTest extends AbstractServiceTest {
   public void testSupportedMarkets() {
     Set markets = new LinkedHashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
 
-    Cache2KCacheKey key = new Cache2KCacheKey(CacheKey.Cache2KCacheKeyType.SUPPORTED_MARKETS);
+    Cache2KCacheKey key = new Cache2KCacheKey(CacheKey.CacheKeyType.SUPPORTED_MARKETS);
     Cache2KCacheEntry<Set> value = cacheService.getValue(key);
 
     assertEquals(markets, value.getValue());
@@ -51,7 +51,7 @@ public class Cache2KCacheServiceTest extends AbstractServiceTest {
     //Set<Markets> initialMarkets = new LinkedHashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN}));
 
     //first, get the initial list of supported markets
-    Cache2KCacheKey key = new Cache2KCacheKey(CacheKey.Cache2KCacheKeyType.SUPPORTED_MARKETS);
+    Cache2KCacheKey key = new Cache2KCacheKey(CacheKey.CacheKeyType.SUPPORTED_MARKETS);
     Cache2KCacheEntry<Set> initialValue = cacheService.getValue(key);  //this value will be the initial 2 markets (BTCE & KRAKEN)
 
     //then reset the value returned by the trading interface to a different set of supported markets
