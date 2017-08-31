@@ -1,6 +1,7 @@
 package com.github.bitcharts.cache;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
@@ -45,6 +46,7 @@ public class Cache2KCacheService extends CacheService<Cache2KCacheKey, Cache2KCa
           }
         })
         .expiryPolicy((key, value, loadTime, oldEntry) -> TIME_TO_LIVE)
+        .expireAfterWrite(TIME_TO_LIVE, TimeUnit.MILLISECONDS)
         .sharpExpiry(true)
         .build();
   }
