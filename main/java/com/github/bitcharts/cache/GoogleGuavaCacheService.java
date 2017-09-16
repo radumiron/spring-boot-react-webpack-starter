@@ -59,7 +59,8 @@ public class GoogleGuavaCacheService extends CacheService<GuavaCacheKey, GuavaCa
     switch (key.getType()) {
       case SUPPORTED_MARKETS:
         Set<Markets> marketsSet = trading.getSupportedMarkets();
-        return new GuavaCacheEntry(marketsSet);
+        return new GuavaCacheEntry<Set>(marketsSet);
+
       default: return null;
     }
   }

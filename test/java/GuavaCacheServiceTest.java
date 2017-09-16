@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -75,6 +76,10 @@ public class GuavaCacheServiceTest extends AbstractServiceTest {
 
     //then reset the value returned by the trading interface to a different set of supported markets
     Set<Markets> secondMarkets = new LinkedHashSet<>(Arrays.asList(new Markets[]{Markets.BTCE, Markets.KRAKEN, Markets.ANXV3}));
+    //reset the current stubbings on trading, otherwise we'll get an unnecessary stubbing exception
+    Mockito.reset(trading);
+
+    //make trading return a different set of supported markets, in order to test the cache service
     when(trading.getSupportedMarkets()).thenReturn(secondMarkets);
 
     if (hasTimeout) { //sleep for the amount of timeToLive + 1 second
