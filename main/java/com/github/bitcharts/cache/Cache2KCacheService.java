@@ -66,7 +66,7 @@ public class Cache2KCacheService extends CacheService<Cache2KCacheKey, Cache2KCa
   }
 
   @Override
-  public void setValue(Cache2KCacheKey key, Cache2KCacheEntry value) {
+  public void addValue(Cache2KCacheKey key, Cache2KCacheEntry value) {
     tradingCache.put(key, value);
   }
 }

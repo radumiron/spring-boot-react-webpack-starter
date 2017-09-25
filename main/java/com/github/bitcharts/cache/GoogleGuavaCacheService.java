@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PostConstruct;
 
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -13,6 +14,7 @@ import org.springframework.util.Assert;
 import org.apache.log4j.Logger;
 
 import com.github.bitcharts.model.Markets;
+import com.github.bitcharts.model.TickerFactory;
 import com.github.bitcharts.model.cache.*;
 import com.github.bitcharts.trading.XChangeTrading;
 import com.google.common.cache.CacheBuilder;
@@ -59,8 +61,14 @@ public class GoogleGuavaCacheService extends CacheService<GuavaCacheKey, GuavaCa
     switch (key.getType()) {
       case SUPPORTED_MARKETS:
         Set<Markets> marketsSet = trading.getSupportedMarkets();
-        return new GuavaCacheEntry<Set>(marketsSet);
-
+        return new GuavaCacheEntry<>(marketsSet);
+      case TICKER:
+        GuavaCacheKeyForTicker actualKey = (GuavaCacheKeyForTicker) key;
+        Ticker ticker = trading.getTicker(actualKey.getMarketName(), actualKey.getCurrencyPair());
+        if (ticker != null) {
+          return new GuavaCacheEntry(TickerFactory.getTickerShallowObject(ticker));
+        }
+        return new GuavaCacheEntry(null);
       default: return null;
     }
   }
@@ -71,7 +79,7 @@ public class GoogleGuavaCacheService extends CacheService<GuavaCacheKey, GuavaCa
   }
 
   @Override
-  public void setValue(GuavaCacheKey key, GuavaCacheEntry value) {
+  public void addValue(GuavaCacheKey key, GuavaCacheEntry value) {
 
   }
 

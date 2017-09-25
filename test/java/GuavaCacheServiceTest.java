@@ -1,15 +1,18 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -17,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.github.bitcharts.cache.GoogleGuavaCacheService;
 import com.github.bitcharts.model.Markets;
+import com.github.bitcharts.model.TickerObject;
 import com.github.bitcharts.model.cache.*;
 import com.github.bitcharts.spring_boot.MarketsService;
 
@@ -92,4 +96,43 @@ public class GuavaCacheServiceTest extends AbstractServiceTest {
 
     return initialValue;
   }
+
+  @Test
+  public void testTickerWithoutTimeout() {
+    List<TickerObject> tickerObjectList = prepareTickerShallowObjects(KRAKEN_MARKET);
+    CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
+    GuavaCacheKey key = new GuavaCacheKeyForTicker(CacheKey.CacheKeyType.TICKER, KRAKEN_MARKET, currencyPair);
+    GuavaCacheEntry<Ticker> marketTicker = cacheService.getValue(key);
+
+    assertTrue(tickerObjectList.contains(marketTicker.getValue()));
+  }
+
+  @Test
+  public void testTickerWithTimeout() {
+    List<TickerObject> tickerObjectList = prepareTickerShallowObjects(KRAKEN_MARKET);
+    CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
+    GuavaCacheKey key = new GuavaCacheKeyForTicker(CacheKey.CacheKeyType.TICKER, KRAKEN_MARKET, currencyPair);
+    GuavaCacheEntry<Ticker> marketTickerInitialValue = cacheService.getValue(key);
+
+    try {  //sleep for the amount of timeToLive + 1 second
+      Thread.sleep(TIME_TO_LIVE + 1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    //the original value has expired in the cache, so take the ticker value again
+    GuavaCacheEntry<Ticker> marketTickerNewValue = cacheService.getValue(key);
+
+    assertTrue(marketTickerInitialValue != marketTickerNewValue);
+  }
+
+  @Test
+  public void testNullTicker() {
+    CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, Currency.EUR);
+    GuavaCacheKey key = new GuavaCacheKeyForTicker(CacheKey.CacheKeyType.TICKER, KRAKEN_MARKET, currencyPair);
+    GuavaCacheEntry<Ticker> marketTickerInitialValue = cacheService.getValue(key);
+
+    assertNull(marketTickerInitialValue.getValue());
+  }
+
 }

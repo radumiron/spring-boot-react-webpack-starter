@@ -16,5 +16,5 @@ public abstract class CacheService<K extends CacheKey, V extends CacheEntry> {
 
   public abstract void initCache();
   public abstract V getValue(K key);
-  public abstract void setValue(K key, V value);
+  public abstract void addValue(K key, V value);
 }
