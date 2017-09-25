@@ -14,4 +14,6 @@ webpack src\main\js\app.js
 Start webpack:
 webpack-dev-server --progress --inline
 
+See Swagger doc:
+http://localhost:9000/swagger-ui.html#/
 
