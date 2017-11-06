@@ -23,6 +23,7 @@ public class AbstractServiceTest {
   public static final String KRAKEN_MARKET = "KRAKEN";
   public static final String BTCE_MARKET = "BTCE";
   public static final String MTGOX_MARKET = "MTGOX";
+  public static final String OK_COIN_MARKET = "OK_COIN_MARKET";
 
   @Mock
   protected XChangeTrading trading;

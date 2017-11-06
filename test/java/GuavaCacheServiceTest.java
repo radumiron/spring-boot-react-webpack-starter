@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +40,11 @@ public class GuavaCacheServiceTest extends AbstractServiceTest {
   @Before
   public void prepare() {
     cacheService.initCache(TIME_TO_LIVE, TimeUnit.MILLISECONDS);
+  }
+
+  @After
+  public void tearDown() {
+    Mockito.reset(trading);
   }
 
   @Test
