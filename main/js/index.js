@@ -9,7 +9,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
-import App from './new_App';
+import App from './App';
 
 let element = document.getElementById('content');
 
@@ -22,7 +22,7 @@ document.body.classList.remove('loading');
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./App', () => {
-    const NextApp = require('./new_App').default;
+    const NextApp = require('./App').default;
     ReactDOM.render(
       <AppContainer>
         <NextApp/>
