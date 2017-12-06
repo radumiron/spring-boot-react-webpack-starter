@@ -3,8 +3,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
-import { addLocaleData } from 'react-intl';
-import en from 'react-intl/locale-data/en';
+//import { addLocaleData } from 'react-intl';
+//import en from 'react-intl/locale-data/en';
 //import { getCurrentLocale, getLocaleData } from 'grommet/utils/Locale';
 import { Router, browserHistory as history } from 'react-router';
 //import { routes } from './Routes';

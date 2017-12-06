@@ -9,7 +9,7 @@ npm install webpack-dev-server --save-dev
 npm update
 
 Create bundle.js:
-webpack src\main\js\_oldapp.js
+webpack src\main\js\_oldapp.js_renamed
 
 Start webpack:
 webpack-dev-server --progress --inline
