@@ -16,7 +16,7 @@ class App extends React.Component {
         this.state = {markets: []};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         client({method: 'GET', path: 'http://localhost:9000/mock_markets/'}).done(response => {
            this.setState({markets: response.entity.markets});
         })
@@ -70,9 +70,3 @@ class Market extends React.Component {
         );
     }
 }
-
-
-ReactDOM.render(
-<App />,
-    document.getElementById('react')
-);
