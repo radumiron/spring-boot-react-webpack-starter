@@ -23,6 +23,28 @@ const common = {
         }, {
             test: /\.css$/,
             loader: 'style!css'
+        }, {
+            test: /\.gif/,
+            loader: 'file-loader'
+        }, {
+            test: /\.ttf/,
+            loader: 'file-loader'
+        }, {
+            test: /\.eot/,
+            loader: 'file-loader'
+        }, {
+            test: /\.svg/,
+            loader: 'file-loader'
+        }, {
+            test: /\.js$/,
+            loaders: ['react-hot-loader/webpack', 'babel'],
+            include: path.join(__dirname, 'src')
+        }, {
+            test: /\.less/,  loader: 'style!css!less?rootpath=/assets'
+        }, {
+            test: /\.woff/, loader: 'url-loader?limit=10000&minetype=application/font-woff'
+        }, {
+            test: /\.woff2/, loader: 'url-loader?limit=10000&minetype=application/font-woff'
         }]
     },
     resolve: {
