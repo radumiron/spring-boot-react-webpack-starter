@@ -1,7 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../style/style.css'
+import '../style/style.css';
 
-ReactDOM.render(
-	<h1 className="testblue">App working</h1>,
+import 'react-widgets/dist/css/react-widgets.css';
+import DrowdownList from 'react-widgets/lib/DropdownList';
+
+class Main extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {markets: []};
+    }
+
+    render() {
+    	return (
+    		<div>
+				<h1 className="testblue">App working with hot loading</h1>
+				<div>
+					<DrowdownList/>
+				</div>
+			</div>
+		);
+	}
+}
+
+ReactDOM.render(<Main/>,
 	document.querySelector('.container'));
