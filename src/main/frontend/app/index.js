@@ -5,6 +5,8 @@ import '../style/style.css';
 import 'react-widgets/dist/css/react-widgets.css';
 import DrowdownList from 'react-widgets/lib/DropdownList';
 
+import Counter1 from './counter1';
+
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -23,17 +25,21 @@ class Main extends React.Component {
 
     render() {
     	return (
-    		<div>
-				<h1 className="testblue">App working with hot loading</h1>
-				<div>
-					<DrowdownList
-					data={this.state.years}/>
-					<DrowdownList
-						data={this.state.months}/>
-					<DrowdownList
-						data={this.state.sheets}/>
-				</div>
-			</div>
+    	    <div>
+                <Counter1 />
+
+                <div>
+                    <h1 className="testblue">App working with hot loading</h1>
+                    <div>
+                        <DrowdownList
+                        data={this.state.years}/>
+                        <DrowdownList
+                            data={this.state.months}/>
+                        <DrowdownList
+                            data={this.state.sheets}/>
+                    </div>
+                </div>
+            </div>
 		);
 	}
 }
