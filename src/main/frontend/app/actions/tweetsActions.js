@@ -10,7 +10,7 @@ export function fetchTweets() {
          - change "reacttest" below to any other username
          - post some tweets to http://rest.learncode.academy/api/yourusername/tweets
          */
-        axios.get("http://rest.learncode.academy/api/reacttest/tweets")
+        axios.get("http://rest.learncode.academy/api/radu/tweets")
             .then((response) => {
                 dispatch({type: "FETCH_TWEETS_FULFILLED", payload: response.data})
             })
@@ -21,12 +21,19 @@ export function fetchTweets() {
 }
 
 export function addTweet(id, text) {
-    return {
-        type: 'ADD_TWEET',
-        payload: {
-            id,
-            text,
-        },
+    return function (dispatch) {
+        dispatch({type: "ADD_TWEET"});
+
+        axios.post("http://rest.learncode.academy/api/radu/tweets", {
+            id: id,
+            text: text
+        })
+            .then((response) => {
+                console.log("added tweet", text);
+            })
+            .catch((err) => {
+                console.error("cannot add tweet", text);
+            })
     }
 }
 
