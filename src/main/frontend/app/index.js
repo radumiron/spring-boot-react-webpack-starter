@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from "react-redux";
 import '../style/style.css';
+import store from "./store";
 
 import 'react-widgets/dist/css/react-widgets.css';
 import DrowdownList from 'react-widgets/lib/DropdownList';
 
-import Counter1 from './counter1';
+import Layout from './components/Layout';
 
 class Main extends React.Component {
     constructor(props) {
@@ -26,7 +28,7 @@ class Main extends React.Component {
     render() {
     	return (
     	    <div>
-                <Counter1 />
+                <Layout />
 
                 <div>
                     <h1 className="testblue">App working with hot loading</h1>
@@ -44,5 +46,8 @@ class Main extends React.Component {
 	}
 }
 
-ReactDOM.render(<Main/>,
+ReactDOM.render(
+    <Provider store={store}>
+        <Main />
+    </Provider>,
 	document.querySelector('.container'));
