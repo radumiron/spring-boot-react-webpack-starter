@@ -20,12 +20,11 @@ export function fetchTweets() {
     }
 }
 
-export function addTweet(id, text) {
+export function addTweet(text) {
     return function (dispatch) {
         dispatch({type: "ADD_TWEET"});
 
         axios.post("http://rest.learncode.academy/api/radu/tweets", {
-            id: id,
             text: text
         })
             .then((response) => {

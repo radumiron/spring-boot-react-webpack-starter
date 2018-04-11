@@ -23,7 +23,7 @@ export default function reducer(state={
         case "ADD_TWEET": {
             return {
                 ...state,
-                tweets: [...state.tweets, action.payload],
+                //tweets: [...state.tweets, action.payload],
             }
         }
         case "UPDATE_TWEET": {
