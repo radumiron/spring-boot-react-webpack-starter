@@ -4,7 +4,6 @@ import { polyfill as promisePolyfill } from 'es6-promise';
 promisePolyfill();
 
 import '../scss/index.scss';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';

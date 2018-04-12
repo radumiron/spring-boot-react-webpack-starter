@@ -7,24 +7,27 @@ import { IntlProvider } from 'react-intl';
 //import en from 'react-intl/locale-data/en';
 //import { getCurrentLocale, getLocaleData } from 'grommet/utils/Locale';
 import { Router, browserHistory as history } from 'react-router';
-//import { routes } from './Routes';
+import { routes } from './Routes';
 //import { configure as apiConfigure } from './actions/Api';
 //import { sessionInitialize } from './actions/session';
-//import store from './store';
+import store from './store';
 //import { routeChanged } from './actions/route';
 
-let wsProtocol = 'ws';
+/*let wsProtocol = 'ws';
 if (window.location.protocol === 'https:') {
   wsProtocol = 'wss';
-}
+}*/
 
 // The port number needs to align with devServerProxy and websocketHost in
 // grommet-toolbox.config.js
+/*
 let hostName = NODE_ENV === 'development' ?
   'localhost:8101' : window.location.host;
+
 apiConfigure({
   webSocketUrl: `${wsProtocol}://${hostName}/ws`
 });
+*/
 
 //let locale = getCurrentLocale();
 //addLocaleData(en);
@@ -45,17 +48,17 @@ try {
 var localeData = getLocaleData(messages, locale);
 */
 
-store.dispatch(sessionInitialize(window.location.pathname));
+//store.dispatch(sessionInitialize(window.location.pathname));
 
 // listen for history changes and initiate routeChanged actions for them
-history.listen((location) => {
+/*history.listen((location) => {
   const publish = store.getState().session.publishRoute;
   store.dispatch(routeChanged(location, publish));
-});
+});*/
 
 export default () => (
   <Provider store={store}>
-    <IntlProvider locale={localeData.locale} messages={localeData.messages}>
+    <IntlProvider>
       <Router routes={routes} history={history} />
     </IntlProvider>
   </Provider>
