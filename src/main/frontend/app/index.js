@@ -5,10 +5,11 @@ import '../style/style.css';
 import store from "./store";
 
 import 'react-widgets/dist/css/react-widgets.css';
-import DrowdownList from 'react-widgets/lib/DropdownList';
+
 
 import Layout from './components/personal/Layout';
 import ReactBasic from './components/ReactBasic';
+import MainFilterComponent from "./components/personal/filters/MainFilterComponent";
 
 class Main extends React.Component {
     constructor(props) {
@@ -35,14 +36,7 @@ class Main extends React.Component {
                 <hr/>
                 <div>
                     <h1 className="testblue">App working with hot loading</h1>
-                    <div>
-                        <DrowdownList
-                        data={this.state.years}/>
-                        <DrowdownList
-                            data={this.state.months}/>
-                        <DrowdownList
-                            data={this.state.sheets}/>
-                    </div>
+                    <MainFilterComponent />
                 </div>
 
             </div>
