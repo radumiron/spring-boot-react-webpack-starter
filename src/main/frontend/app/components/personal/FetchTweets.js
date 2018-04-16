@@ -21,7 +21,12 @@ export default class FetchTweets extends React.Component {
         const {tweets} = this.props;
 
         if (!tweets.length) {
-            return <button onClick={this.fetchTweetsLocal.bind(this)}>Load tweets</button>
+            return (
+                <div>
+                    <h1>List of tweets</h1>
+                    <button onClick={this.fetchTweetsLocal.bind(this)}>Load tweets</button>
+                </div>
+                )
         }
         const mappedTweets = tweets.map(tweet => <li key={tweet.id}>{tweet.text}</li>)
 

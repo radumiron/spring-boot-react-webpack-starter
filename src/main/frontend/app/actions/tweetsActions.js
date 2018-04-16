@@ -29,6 +29,7 @@ export function addTweet(text) {
         })
             .then((response) => {
                 console.log("added tweet", text);
+                dispatch(fetchTweets());
             })
             .catch((err) => {
                 console.error("cannot add tweet", text);
