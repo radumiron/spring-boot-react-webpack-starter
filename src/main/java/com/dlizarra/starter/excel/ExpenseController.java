@@ -34,6 +34,19 @@ public class ExpenseController {
     }
 
     @RequestMapping(value = "/api/expense/year/{year}", method = RequestMethod.GET)
+    public List<String> getMonthNames(@PathVariable String year) {
+        List<String> collect = excelCache.getParsedFiles().entrySet()
+            .stream()
+            .filter(entry -> entry.getKey().getName().equals(year))
+            .map(Map.Entry::getValue)
+            .flatMap(Collection::stream)
+            .map(excelFile -> excelFile.getFile().getName())
+            .collect(Collectors.toList());
+
+        return collect;
+    }
+
+/*    @RequestMapping(value = "/api/expense/year/{year}", method = RequestMethod.GET)
     public List<ExcelFile> getMonths(@PathVariable String year) {
         List<ExcelFile> collect = excelCache.getParsedFiles().entrySet()
             .stream()
@@ -43,5 +56,5 @@ public class ExpenseController {
             .collect(Collectors.toList());
 
         return collect;
-    }
+    }*/
 }

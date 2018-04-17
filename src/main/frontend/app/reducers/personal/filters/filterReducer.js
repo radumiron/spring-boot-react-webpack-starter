@@ -1,5 +1,6 @@
 export default function reducer(state = {
     years: [],
+    months: [],
     fetching: false,
     fetched: false,
     error: null
@@ -21,6 +22,30 @@ export default function reducer(state = {
         }
 
         case "FETCH_YEARS_REJECTED": {
+            return {
+                ...state,
+                fetching: false,
+                fetched: false,
+                error: action.payload
+            }
+        }
+
+        case "FETCH_MONTHS": {
+            return {
+                ...state,
+                fetching: true
+            }
+        }
+        case "FETCH_MONTHS_FULFILLED": {
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                months: action.payload
+            }
+        }
+
+        case "FETCH_MONTHS_REJECTED": {
             return {
                 ...state,
                 fetching: false,

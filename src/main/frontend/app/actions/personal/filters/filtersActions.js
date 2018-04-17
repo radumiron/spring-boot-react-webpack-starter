@@ -13,3 +13,19 @@ export function fetchYears() {
             })
     }
 }
+
+export function fetchMonths(year) {
+    return function (dispatch) {
+        dispatch({type: "FETCH_MONTHS"});
+
+        var monthsURL = "http://localhost:8080/api/expense/year/" + year;
+
+        axios.get(monthsURL)
+            .then((response) => {
+                dispatch({type: "FETCH_MONTHS_FULFILLED", payload: response.data});
+            })
+            .catch((err) => {
+                dispatch({type: "FETCH_MONTHS_REJECTED", payload: err});
+            })
+    }
+}
