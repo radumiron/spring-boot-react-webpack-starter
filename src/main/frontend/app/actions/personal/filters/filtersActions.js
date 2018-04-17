@@ -29,3 +29,21 @@ export function fetchMonths(year) {
             })
     }
 }
+
+export function fetchSheets(year, month) {
+    return function(dispatch) {
+        console.log(year, month);
+    }
+}
+
+export function selectYear(year) {
+    return function (dispatch) {
+        dispatch({type: "SELECT_YEAR", payload: year});
+    }
+}
+
+export function selectMonth(month) {
+    return function (dispatch) {
+        dispatch({type: "SELECT_MONTH", payload: month});
+    }
+}

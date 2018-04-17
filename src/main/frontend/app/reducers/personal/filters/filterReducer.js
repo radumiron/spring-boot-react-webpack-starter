@@ -3,7 +3,9 @@ export default function reducer(state = {
     months: [],
     fetching: false,
     fetched: false,
-    error: null
+    error: null,
+    selectedYear: null,
+    selectedMonth: null
 }, action) {
     switch (action.type) {
         case "FETCH_YEARS": {
@@ -53,6 +55,18 @@ export default function reducer(state = {
                 error: action.payload
             }
         }
+
+        case "SELECT_YEAR":
+            return {
+                ...state,
+                selectedYear: action.payload
+            }
+
+        case "SELECT_MONTH":
+            return {
+                ...state,
+                selectedMonth: action.payload
+            }
     }
 
     return state;
