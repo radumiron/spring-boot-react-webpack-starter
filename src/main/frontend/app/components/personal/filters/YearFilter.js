@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DrowdownList from 'react-widgets/lib/DropdownList';
 
-import { fetchMonths, fetchYears, selectYear } from "../../../actions/personal/filters/filtersActions"
+import { fetchYears, selectYear } from "../../../actions/personal/filters/filtersActions"
 
 @connect((store) => {
     return {
@@ -16,15 +16,16 @@ export default class YearFilter extends React.Component {
     }
 
     componentWillMount() {
+        console.log("YearFilter: componentWillMount");
         this.props.dispatch(fetchYears());
     }
 
     handleYearChange = (year) => {
         this.props.dispatch(selectYear(year));
-        this.props.dispatch(fetchMonths(year));
     }
 
     render() {
+        console.log("YearFilter: render");
         return (
             <div>
                 <DrowdownList data={this.props.years} onChange = {value => this.handleYearChange(value)}/>

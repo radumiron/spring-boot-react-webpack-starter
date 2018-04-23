@@ -33,6 +33,8 @@ public class ExpenseController {
             .collect(Collectors.toSet());
     }
 
+
+    //TODO change /year/{year} to /year/{year}/month
     @RequestMapping(value = "/api/expense/year/{year}", method = RequestMethod.GET)
     public List<String> getMonthNames(@PathVariable String year) {
         List<String> collect = excelCache.getParsedFiles().entrySet()
@@ -46,15 +48,26 @@ public class ExpenseController {
         return collect;
     }
 
-/*    @RequestMapping(value = "/api/expense/year/{year}", method = RequestMethod.GET)
-    public List<ExcelFile> getMonths(@PathVariable String year) {
-        List<ExcelFile> collect = excelCache.getParsedFiles().entrySet()
+    //TODO change /year/{year}/{month} to /year/{year}/month/{month}
+    @RequestMapping(value = "/api/expense/year/{year}/{month}", method = RequestMethod.GET)
+    public List<ExcelFile> getMonths(@PathVariable String year, @PathVariable String month) {
+        //get months for year
+        List<ExcelFile> excelFiles = excelCache.getParsedFiles().entrySet()
             .stream()
             .filter(entry -> entry.getKey().getName().equals(year))
             .map(Map.Entry::getValue)
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
 
+        //reconstruct Excel file name
+        String filename = month + ".xlsx";
+
+        //get specific excel file, there can be duplicates
+        List<ExcelFile> collect = excelFiles
+            .stream()
+            .filter(excelFile -> excelFile.getFile().getName().endsWith(filename))
+            .collect(Collectors.toList());
+
         return collect;
-    }*/
+    }
 }

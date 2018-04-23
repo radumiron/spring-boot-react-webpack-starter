@@ -1,3 +1,11 @@
 .testblue {
      color: blue;
  }
+
+.sheetsFetched {
+    color: green;
+}
+
+.sheetsNotFetched {
+    color: red;
+}
