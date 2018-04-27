@@ -6,8 +6,6 @@ import store from "./store";
 
 import 'react-widgets/dist/css/react-widgets.css';
 
-import Button from 'material-ui/Button';
-
 import Layout from './components/personal/Layout';
 import ReactBasic from './components/ReactBasic';
 import MainFilterComponent from "./components/personal/filters/MainFilterComponent";
@@ -22,10 +20,10 @@ class Main extends React.Component {
     render() {
     	return (
     	    <div>
-                <ReactBasic />
+               {/* <ReactBasic />
                 <hr/>
                 <Layout />
-                <hr/>
+                <hr/>*/}
                 <div>
                     <h1 className="testblue">App working with hot loading</h1>
                     <MainFilterComponent />
@@ -33,9 +31,9 @@ class Main extends React.Component {
                 <hr/>
                 <SheetsComponent />
                 <hr/>
-                <Button variant="raised" color="primary">
+               {/* <Button variant="raised" color="primary">
                     Hello world
-                </Button>
+                </Button>*/}
             </div>
 		);
 	}

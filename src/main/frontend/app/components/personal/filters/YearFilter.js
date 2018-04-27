@@ -16,7 +16,7 @@ export default class YearFilter extends React.Component {
     }
 
     componentWillMount() {
-        console.log("YearFilter: componentWillMount");
+        //console.log("YearFilter: componentWillMount");
         this.props.dispatch(fetchYears());
     }
 
@@ -25,7 +25,7 @@ export default class YearFilter extends React.Component {
     }
 
     render() {
-        console.log("YearFilter: render");
+        //console.log("YearFilter: render");
         return (
             <div>
                 <DrowdownList data={this.props.years} onChange = {value => this.handleYearChange(value)}/>

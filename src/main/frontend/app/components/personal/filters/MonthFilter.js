@@ -16,7 +16,7 @@ export default class MonthFilter extends React.Component {
         super();
     }
     shouldComponentUpdate(nextProps, nextState) {
-        console.log("MonthsFilter: shouldComponentUpdate:", nextProps.selectedYear, this.props.selectedYear);
+        //console.log("MonthsFilter: shouldComponentUpdate:", nextProps.selectedYear, this.props.selectedYear);
         if (nextProps.selectedYear != this.props.selectedYear) {
             this.props.dispatch(fetchMonths(nextProps.selectedYear));
             return true;
@@ -41,7 +41,7 @@ export default class MonthFilter extends React.Component {
     }
 
     render() {
-        console.log("MonthsFilter: render: selectedYear", this.props.selectedYear);
+        //console.log("MonthsFilter: render: selectedYear", this.props.selectedYear);
         return (
             <div>
                 <DrowdownList data={this.props.months} onChange = {value => this.handleMonthChange(value)}/>
