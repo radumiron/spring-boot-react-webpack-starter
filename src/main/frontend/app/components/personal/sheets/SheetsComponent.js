@@ -1,14 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import Tabs from 'material-ui/Tabs';
-import Tab from 'material-ui/Tabs';
+import PropTypes from "prop-types";
+import { withStyles } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import Typography from "material-ui/Typography";
 
 import { fetchSheets } from "../../../actions/personal/filters/sheetsActions";
 
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+function TabContainer(props) {
+    return (
+        <Typography component="div" style={{ padding: 8 * 3 }}>
+            {props.children}
+        </Typography>
+    );
+}
 
+TabContainer.propTypes = {
+    children: PropTypes.node.isRequired
+};
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper
+    }
+});
 
 @connect((store) => {
     return {
@@ -18,16 +36,15 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
         sheets: store.sheets.sheets
     };
 })
-export default class SheetsComponent extends React.Component {
+class SheetsComponent extends React.Component {
 
     constructor() {
         super();
-
-        this.constructor.childContextTypes = {
-            muiTheme: React.PropTypes.object.isRequired
-        };
     }
 
+    state = {
+        value: 0,
+    };
 
     styles = {
         headline: {
@@ -37,12 +54,6 @@ export default class SheetsComponent extends React.Component {
             fontWeight: 400,
         },
     };
-
-    getChildContext() {
-        return { muiTheme: getMuiTheme(baseTheme) };
-    }
-
-
 
     shouldComponentUpdate(nextProps, nextState) {
         var year = nextProps.selectedYear;
@@ -65,36 +76,31 @@ export default class SheetsComponent extends React.Component {
         alert("A tab with this route property ${tab.props['data-route']} was activated.");
     }
 
+    handleChange = (event, value) => {
+        this.setState({ value });
+    };
+
     render() {
+
+        const { value } = this.state;
 
         if (this.props.fetched) {
             return (
+
                 <div>
                     <h1 className="sheetsFetched">Sheets were fetched</h1>
                     <h2>Displaying sheets for {this.props.sheets[0].file}</h2>
-                    <Tabs>
-                        <Tab label="Item One" >
-                            <div>
-                                <h2 style={this.styles.headline}>Tab One</h2>
-                                <p>
-                                    This is an example tab.
-                                </p>
-                                <p>
-                                    You can put any sort of HTML or react component in here. It even keeps the component state!
-                                </p>
-                                {/*<Slider name="slider0" defaultValue={0.5} />*/}
-                            </div>
-                        </Tab>
-                        <Tab label="Item Two" >
-                            <div>
-                                <h2 style={this.styles.headline}>Tab Two</h2>
-                                <p>
-                                    This is another example tab.
-                                </p>
-                            </div>
-                        </Tab>
-                    </Tabs>
+                    <AppBar position="static">
+                        <Tabs value={value} onChange={this.handleChange}>
+                            <Tab label="Item One" />
+                            <Tab label="Item Two" />
+                        </Tabs>
+                    </AppBar>
+                    {value === 0 && <TabContainer>Item One</TabContainer>}
+                    {value === 1 && <TabContainer>Item Two</TabContainer>}
+                    {value === 2 && <TabContainer>Item Three</TabContainer>}
                 </div>
+
             );
         }
         return (
@@ -105,6 +111,9 @@ export default class SheetsComponent extends React.Component {
     }
 }
 
-SheetsComponent.childContextTypes = {
-    muiTheme: React.PropTypes.object.isRequired
+SheetsComponent.propTypes = {
+    classes: PropTypes.object.isRequired
 };
+
+export default withStyles(styles)(SheetsComponent);
+
