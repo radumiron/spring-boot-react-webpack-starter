@@ -5,21 +5,12 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from "material-ui/Typography";
+import SingleSheet from "./SingleSheet";
 
-import { fetchSheets } from "../../../actions/personal/filters/sheetsActions";
+import { fetchSheets, handleSelectSheet} from "../../../actions/personal/filters/sheetsActions";
 
 
-function TabContainer(props) {
-    return (
-        <Typography component="div" style={{ padding: 8 * 3 }}>
-            {props.children}
-        </Typography>
-    );
-}
-
-TabContainer.propTypes = {
-    children: PropTypes.node.isRequired
-};
+var counter = 0;
 
 const styles = theme => ({
     root: {
@@ -33,7 +24,8 @@ const styles = theme => ({
         selectedMonth: store.filters.selectedMonth,
         selectedYear: store.filters.selectedYear,
         fetched: store.sheets.fetched,
-        sheets: store.sheets.sheets
+        sheets: store.sheets.sheets,
+        selectedSheet: store.sheets.selectedSheet
     };
 })
 class SheetsComponent extends React.Component {
@@ -41,10 +33,6 @@ class SheetsComponent extends React.Component {
     constructor() {
         super();
     }
-
-    state = {
-        value: 0,
-    };
 
     styles = {
         headline: {
@@ -72,17 +60,18 @@ class SheetsComponent extends React.Component {
         return nextProps.fetched;
     }
 
-    handleActive = (tab) => {
-        alert("A tab with this route property ${tab.props['data-route']} was activated.");
+    getListOfSheets = () => {
+        const sheetsList = this.props.sheets[0].sheetList;
+        console.log("counter", counter++, "my", sheetsList);
+
+        return sheetsList;
     }
 
-    handleChange = (event, value) => {
-        this.setState({ value });
+    handleChange = (event, sheet) => {
+        this.props.dispatch(handleSelectSheet(sheet));
     };
 
     render() {
-
-        const { value } = this.state;
 
         if (this.props.fetched) {
             return (
@@ -91,16 +80,14 @@ class SheetsComponent extends React.Component {
                     <h1 className="sheetsFetched">Sheets were fetched</h1>
                     <h2>Displaying sheets for {this.props.sheets[0].file}</h2>
                     <AppBar position="static">
-                        <Tabs value={value} onChange={this.handleChange}>
-                            <Tab label="Item One" />
-                            <Tab label="Item Two" />
+                        <Tabs onChange={this.handleChange}>
+                            {this.getListOfSheets().map((sheet) =>
+                                <Tab key={sheet.name} label={sheet.name} />
+                                )}
                         </Tabs>
+                        <SingleSheet/>
                     </AppBar>
-                    {value === 0 && <TabContainer>Item One</TabContainer>}
-                    {value === 1 && <TabContainer>Item Two</TabContainer>}
-                    {value === 2 && <TabContainer>Item Three</TabContainer>}
                 </div>
-
             );
         }
         return (

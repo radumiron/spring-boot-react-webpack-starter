@@ -14,3 +14,9 @@ export function fetchSheets(year, month) {
             })
     }
 }
+
+export function handleSelectSheet(sheet) {
+    return function (dispatch) {
+        dispatch({type: "HANDLE_SELECT_SHEET", payload: sheet});
+    }
+}

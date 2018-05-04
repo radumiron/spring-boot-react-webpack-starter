@@ -2,7 +2,8 @@ export default function reducer(state = {
     sheets: [],
     fetching: false,
     fetched: false,
-    error: null
+    error: null,
+    selectedSheet: 0
 }, action) {
     switch (action.type) {
         case "FETCH_SHEETS": {
@@ -26,6 +27,12 @@ export default function reducer(state = {
                 fetching: false,
                 fetched: false,
                 error: action.payload
+            }
+        }
+        case "HANDLE_SELECT_SHEET": {
+            return {
+                ...state,
+                selectedSheet: action.payload
             }
         }
     }
