@@ -14,7 +14,7 @@ const styles = theme => ({
 
 function TabContainer(props) {
     return (
-        <Typography variant="subheading" style={{ padding: 8 * 3 }}>
+        <Typography variant="display3" style={{ padding: 8 * 3 }}>
             {props.children}
         </Typography>
     );
@@ -42,9 +42,9 @@ function SheetEntry(props) {
 class SingleSheet extends React.Component {
 
 
-    getContentsOfASheet = () => {
+    getContentsOfASheet = (sheet) => {
 
-        const sheet = this.props.sheets[0].sheetList[this.props.selectedSheet].sheetEntries;
+
         return (
             <table>
                 <thead>
@@ -63,11 +63,29 @@ class SingleSheet extends React.Component {
 
     }
 
+    getSheetName() {
+        var selectedSheet = this.props.selectedSheet;
+        var sheetList = this.props.sheets[0].sheetList;
+
+        var selectedSheetName = null;
+        var sheetEntries = null
+        if (selectedSheet === sheetList.length) { //it's the Totals sheet
+            selectedSheetName = this.props.sheets[0].totalsSheet.name;
+            sheetEntries = this.props.sheets[0].totalsSheet.sheetEntries;
+        } else {
+            selectedSheetName = sheetList[selectedSheet].name;
+            sheetEntries = sheetList[selectedSheet].sheetEntries;
+        }
+
+        return {selectedSheetName, sheetEntries};
+    }
+
     render() {
+        var {selectedSheetName, sheetEntries} = this.getSheetName();
         return (
             <div>
-                <TabContainer>Item {this.props.selectedSheet}</TabContainer>
-                {this.getContentsOfASheet()}
+                <TabContainer>Item {selectedSheetName}</TabContainer>
+                {this.getContentsOfASheet(sheetEntries)}
             </div>
         );
     }

@@ -64,7 +64,17 @@ class SheetsComponent extends React.Component {
         const sheetsList = this.props.sheets[0].sheetList;
         console.log("counter", counter++, "my", sheetsList);
 
-        return sheetsList;
+        return sheetsList.map((sheet) =>
+            <Tab key={sheet.name} label={sheet.name} />
+        );
+
+
+    }
+
+    getTotalsSheet = () => {
+        const totalsSheet = this.props.sheets[0].totalsSheet;
+
+
     }
 
     handleChange = (event, sheet) => {
@@ -73,7 +83,7 @@ class SheetsComponent extends React.Component {
 
     render() {
 
-        if (this.props.fetched) {
+        if (this.props.fetched && this.props.sheets.length > 0) {
             return (
 
                 <div>
@@ -81,12 +91,17 @@ class SheetsComponent extends React.Component {
                     <h2>Displaying sheets for {this.props.sheets[0].file}</h2>
                     <AppBar position="static">
                         <Tabs onChange={this.handleChange}>
-                            {this.getListOfSheets().map((sheet) =>
-                                <Tab key={sheet.name} label={sheet.name} />
-                                )}
+                            {this.getListOfSheets()}
+                            <Tab key="Totals" label="Totals"/>
                         </Tabs>
                         <SingleSheet/>
                     </AppBar>
+                </div>
+            );
+        } else if (this.props.sheets.length == 0) {
+            return (
+                <div>
+                    <h1 className="sheetsNotFetched">No sheets available</h1>
                 </div>
             );
         }
