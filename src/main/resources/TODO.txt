@@ -1,0 +1,19 @@
+Setup proxy for NPM:
+npm config set proxy http://web-proxy.bbn.hpecorp.net:8080
+
+Install webpack commands:
+npm install webpack --global
+npm install webpack --save-dev
+npm install webpack-dev-server -g
+npm install webpack-dev-server --save-dev
+npm update
+
+Create bundle.js:
+webpack src\main\js\_oldapp.js_renamed
+
+Start webpack:
+webpack-dev-server --progress --inline
+
+See Swagger doc:
+http://localhost:9000/swagger-ui.html#/
+
